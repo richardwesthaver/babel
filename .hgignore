@@ -1,4 +1,5 @@
 ^target/
+^scratch/
 glob:Cargo.lock
 glob:.#*
 glob:*.*~
