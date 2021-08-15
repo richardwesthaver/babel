@@ -30,7 +30,7 @@ done
 
 pushd $CD
 cd $WD
-tar --zstd -cf $BUNDLE_NAME bundle
+tar -I zstd -cf $BUNDLE_NAME bundle
 popd
 
 echo "Done."
