@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 # unbundle a tar.zst archive of Mercurial repositories.
 CD=$(pwd)
 WD=$HOME/stash/tmp
