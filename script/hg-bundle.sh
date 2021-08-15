@@ -1,10 +1,17 @@
 #!/usr/bin/bash
+# bundle a tar.zst archive of Mercurial repositories.
+# 
 # run this from parent directory (~/src)
 CD=$(pwd)
-OUT=$HOME/stash/tmp/bundle
-EXPORT_PATH=/mnt/cia/export
-echo "Bundling all local repositories..."
-mkdir -p $OUT
+WD=$HOME/stash/tmp
+OUT=$WD/bundle
+BUNDLE_NAME=bundle-$(date "+%Y%m%d").tar.zst
+
+echo "Bundling all repositories..."
+
+mkdir -pv $OUT
+rm -rf $OUT/*
+rm -rf $WD/$BUNDLE_NAME
 # Find all mercurial repositories, create bundles and dump them to $OUT dir
 for i in $(find . -name ".hg" | cut -c 3-); do
     echo "";
@@ -13,7 +20,7 @@ for i in $(find . -name ".hg" | cut -c 3-); do
     cd "$i";
     cd ..;
 
-    hg bundle -a -t gzip-v2 $OUT/$(basename $(hg root)).hg.gz
+    hg bundle -a -t gzip-v2 $OUT/$(basename $(hg root)).hg.gz;
     hg bundle -a -t zstd-v2 $OUT/$(basename $(hg root)).hg.zst;
     hg bundle -a -t none-v2 $OUT/$(basename $(hg root)).hg;
     hg debugcreatestreamclonebundle $OUT/$(basename $(hg root)).hg.stream;
@@ -21,9 +28,9 @@ for i in $(find . -name ".hg" | cut -c 3-); do
     cd $CD
 done
 
-pushd
-cd $HOME/stash/tmp
-tar --zstd -cf $EXPORT_PATH/bundle-$(date "+%Y%m%d-%H.%M").tar.zst bundle
+pushd $CD
+cd $WD
+tar --zstd -cf $BUNDLE_NAME bundle
 popd
 
 echo "Done."
