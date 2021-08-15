@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 # export a collection of hg.BUNDLESPEC files to REMOTE stash/tmp.
 REMOTE=jekyll
 WD=$HOME/stash/tmp

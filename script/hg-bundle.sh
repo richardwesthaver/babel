@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 # bundle a tar.zst archive of Mercurial repositories.
 # 
 # run this from parent directory (~/src)
