@@ -30,6 +30,7 @@ done
 
 pushd $CD
 cd $WD
+# this will take a while with ultra mode
 tar -I 'zstd --ultra -22' -cf $BUNDLE_NAME bundle/
 popd
 
