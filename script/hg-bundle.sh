@@ -5,7 +5,7 @@ CD=$(pwd)
 WD=$HOME/stash/tmp
 OUT=$WD/bundle
 SRC_PATH=$HOME/src
-BUNDLE_NAME=bundle-$(date "+%Y%m%d_%H%M").tar.zst
+BUNDLE_NAME=bundle-$(date "+%Y%m%d").tar.zst
 
 echo "Building $BUNDLE_NAME in $WD..."
 

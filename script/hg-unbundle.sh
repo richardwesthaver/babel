@@ -9,4 +9,3 @@ unzstd $WD/$BUNDLE_NAME.tar.zst
 tar -xvf $WD/$BUNDLE_NAME.tar -C $PKG_DIR
 rm -rf $WD/$BUNDLE_NAME.tar.zst $WD/$BUNDLE_NAME.tar
 echo "Done."
-done
