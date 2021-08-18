@@ -2,13 +2,14 @@
 # generate inline documentation for all rust projects
 set -eu
 
-CD=$(pwd)
-TARGET=
-for i in 
-pushd ~/src/tenex
-RUSTDOCFLAGS="--enable-index-page -Zunstable-options" cargo +nightly doc --target-dir 
-popd
+WD=~/src
 
-pushd ~/shed/src/bin
-RUSTDOCFLAGS="--enable-index-page -Zunstable-options" cargo +nightly doc --target-dir ~/stash/public/bin-docs --no-deps
+pushd $WD
+for i in demo store stash rlib tenex; do # shed
+    echo "";
+    echo "generating rust_docs for $i";
+    cd "$i";
+    cargo +nightly doc --target-dir ~/stash/tmp/rust_docs;
+    cd $WD;
+done
 popd
