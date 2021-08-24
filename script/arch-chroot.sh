@@ -1,3 +1,4 @@
+#!/usr/bin/sh
 src=http://mirrors.mit.edu/archlinux/iso/2020.11.01/archlinux-bootstrap-2020.11.01-x86_64.tar.gz
 archive=/tmp/archlinux-bootstrap-2020.05.01-x86_64.tar.gz
 image=/tmp/image.raw

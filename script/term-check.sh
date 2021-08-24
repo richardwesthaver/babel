@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # current settings of all terminal attributes:
 stty -a
 # key bindings:
