@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # store the current dir
 CD=$(pwd)
 

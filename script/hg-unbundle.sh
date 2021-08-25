@@ -1,5 +1,6 @@
 #!/bin/sh
 # unbundle a tar.zst archive of Mercurial repositories.
+# this will generate a directory name 'bundle' in '~/pkg/hg/'
 WD=$HOME/stash/tmp
 BUNDLE_NAME=bundle-$(date "+%Y%m%d")
 PKG_DIR=$HOME/pkg/hg
