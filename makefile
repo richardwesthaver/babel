@@ -1,10 +1,8 @@
+#@!/usr/bin/make -f -j8
 -include tp/1.mk
-MD=mkdir -p $(@)
-BABEL:=$(SHED)/babel
+BABEL=$(SHED)/babel
 
-_:c $(STAMPP)
+.PHONY: i c
+i:sc sn tp;mkdir -p $(BABEL) $(STAMPP);install -C -d -m 744 $^ $(BABEL)
+	shed pack $(BABEL) $(STAMPP)/b.tz
 c:;rm -rf $(STAMPP)/b.tz $(BABEL)/*
-.PHONY: _ c
-
-$(BABEL):sc sn tp;$(MD);install -C -d -m 744 $^ $@/$^
-$(STAMPP):$(BABEL);$(MD);shed pack $< $@/b.tz
