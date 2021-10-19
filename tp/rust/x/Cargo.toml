@@ -1,7 +1,9 @@
-#@! NAME:str
+#@! ID
 [package]
-name = "$_NAME"
+name = "x_$_ID"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+rlib = "0.1.0"
+tenex = "0.1.0"
