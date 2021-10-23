@@ -1,15 +1,16 @@
 #!/bin/bash
-# generate inline documentation for my rust libraries
+# generate API docs for all rust projects
 set -eu
 
-WD=/mnt/src
+WD=$SHED/src
+
+mkdir -p $STAMP/rdoc
 
 pushd $WD
-for i in rlib tenex; do # shed
-    echo "";
-    echo "generating rust_docs for $i";
-    cd "$i";
-    cargo +nightly doc --target-dir ~/stash/tmp/rust_docs/$i --all-features --workspace --no-deps;
-    cd $WD;
+for i in rlib tenex shed; do # shed
+    echo "\ngenerating rust_docs for $i";
+    pushd $i;
+    cargo +nightly doc --no-deps --target-dir $STAMP/rdoc/$i --all-features --workspace --release --message-format short;
+    popd;
 done
 popd
