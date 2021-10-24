@@ -29,7 +29,38 @@
 (defgroup babel ()
   "Meta-programming extensions"
   :group 'shed)
+ 
+(defcustom lob-file-name "~/shed/src/babel/lob.org"
+  "Filename for an org-mode buffer containing the Library of Babel"
+  :type 'string
+  :group 'babel
+  :safe 'stringp)
 
+(defcustom lob-ingest-trigger 'on-save
+  "Control when 'org-babel-lob-ingest` will be executed."
+  :type '(choice (const :tag "Ingest on `lob-file` save." on-save)
+		 (const :tag "JIT Ingestion." jit)
+		 (const :tag "Trigger lob-ingest manually." nil))
+  :group 'babel)
+
+(defvar lob-file (expand-file-name lob-file-name))
+
+(defun lob-file-active-p ()
+  "Non-nil if the active buffer is `lob-file`"
+  (string= (buffer-file-name) lob-file))
+
+;;;; Hooks 
+(defun lob-after-save-hook ()
+  "lob.org `after-save-hook` when lob-ingest-trigger = on-save
+and `lob-file-active-p` is non-nil."
+  (when (and (eq lob-ingest-trigger 'on-save)
+	     ( lob-file-active-p))
+    (org-babel-lob-ingest lob-file)))
+ 
+(add-hook 'after-save-hook #'lob-after-save-hook)
+(add-hook 'after-init-hook #'(org-babel-log-ingest lob-file))
+
+;;;; Skeletons 
 (defcustom babel-skeleton-autoinsert nil
   "Non-nil means babel template skeletons will be inserted automagically using abbrevs."
   :type 'boolean
@@ -66,5 +97,6 @@ The skeleton will be bound to `babel-skeleton-NAME and added to
   "Abbrev table for Babel."
   :parents (list babel-skeleton-abbrev-table))
 
+;;;; pkg 
 (provide 'babel)
 ;;; babel.el ends here
