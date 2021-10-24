@@ -3,9 +3,9 @@
 ** sh
 *** app
 #+name: ytdl
-#+begin_src sh
+#+begin_src sh :var OUT_PATH=""
 youtube-dl --no-warnings \
-  -o '~/stash/tmp/%(title)s.%(ext)s' \
+  -o '$OUT_PATH/%(title)s.%(ext)s' \
   --socket-timeout 15 --hls-use-mpegts -R 64 --fragment-retries 64 \
   --prefer-free-formats --all-subs --embed-subs \
   -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$@" \
@@ -15,7 +15,7 @@ youtube-dl --no-warnings \
 *** dev
 **** cargo
 #+name: cargo_update_dir
-#+begin_src sh
+#+begin_src sh :var dir=""
 # update all crates in dir
 set -eu
 case $0 in
@@ -26,6 +26,9 @@ esac
 
 find "$dir/.." -name Cargo.lock -execdir cargo update \;
 #+end_src
+
+#+RESULTS: cargo_update_dir
+
 *** crypto
 #+name: wg_genkey
 #+begin_src sh
@@ -191,8 +194,63 @@ function Copy() {
 </div>
   #+end_src
 ** sh
+*** util
+**** extract
+    #+begin_src sh
+extract () {
+    if [ -f $1 ] ; then
+	case $1 in
+	    ,*.tar.bz2)        tar xjf $1        ;;
+	    ,*.tar.gz)         tar xzf $1        ;;
+	    ,*.bz2)            bunzip2 $1        ;;
+	    ,*.rar)            unrar x $1        ;;
+	    ,*.gz)             gunzip $1         ;;
+	    ,*.tar)            tar xf $1         ;;
+	    ,*.tbz2)           tar xjf $1        ;;
+	    ,*.tgz)            tar xzf $1        ;;
+	    ,*.zip)            unzip $1          ;;
+	    ,*.Z)              uncompress $1     ;;
+	    ,*.7z)             7zr e $1          ;;
+	    ,*)                echo "'$1' cannot be extracted via extract()" ;;
+	esac
+    else
+	echo "'$1' is not a valid file"
+    fi
+}
+    #+end_src
 ** org
 ** el
+*** util
+**** make-dot-tree
+#+name: make-dot-tree
+#+begin_src emacs-lisp :var table=() :results output :exports none
+  (mapcar #'(lambda (x)
+                (princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
+          table)
+#+end_src
+**** gen-dot-tree
+#+name: gen-dot-tree
+#+begin_src dot :file tree.png :cmdline -Kdot -Tpng :var input=make-dot :exports results
+digraph {
+   rankdir=TB;
+   splines=true;
+   node [shape=box];
+   $input
+  }
+#+end_src
+
+*** org
+**** org-headlines-map
+#+name: org-headlines-map
+#+begin_src elisp
+  (org-element-map (org-element-parse-buffer 'headline )
+      'headline
+    (lambda(hl)
+      (let ((parent (org-element-property :parent hl )))
+        (and (eq (org-element-type parent) 'headline)
+             (list (org-element-property :title parent) (org-element-property :title hl))))))
+
+#+end_src
 ** py
 ** c
 ** cpp
@@ -207,6 +265,15 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+#+end_src
+**** rustfmt.toml
+#+begin_src toml
+edition = "2021"
+reorder_imports = true
+reorder_modules = true
+tab_spaces = 2
+use_field_init_shorthand = true
+use_try_shorthand = true
 #+end_src
 **** src/main.rs
 #+begin_src rust
