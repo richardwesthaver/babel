@@ -1,4 +1,5 @@
 #+TITLE: babel
+#+SETUP_FILE: ~/shed/src/meta/ox.setup
 * sc
 ** sh
 *** app
@@ -228,9 +229,12 @@ extract () {
                 (princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
           table)
 #+end_src
+
+#+RESULTS: make-dot-tree
+
 **** gen-dot-tree
 #+name: gen-dot-tree
-#+begin_src dot :file tree.png :cmdline -Kdot -Tpng :var input=make-dot :exports results
+#+begin_src dot :file tree.png :cmdline -Kdot -Tpng :var input=make-dot-tree :exports results
 digraph {
    rankdir=TB;
    splines=true;
