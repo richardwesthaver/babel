@@ -1,12 +1,11 @@
 #!/bin/bash
 # bundle a tar.zst archive of Mercurial repositories.
-
+# requires `shed`
 CD=$(pwd)
 WD=$HOME/stash/tmp
 OUT=$WD/bundle
 SRC_PATH=$HOME/src
-BUNDLE_NAME=bundle-$(date "+%Y%m%d").tar.zst
-
+BUNDLE_NAME=hg.tar.zst
 echo "Building $BUNDLE_NAME in $WD..."
 
 mkdir -pv $OUT
@@ -32,6 +31,6 @@ done
 
 cd $WD
 # this will take a while with ultra mode
-tar -I 'zstd --ultra -22' -cf $BUNDLE_NAME bundle/
+shed p bundle hg.tz
 
 echo "Done."
