@@ -1,183 +1,69 @@
 #+TITLE: babel
 #+SETUP_FILE: ~/shed/src/meta/ox.setup
-* sc
-** sh
-*** app
-#+name: ytdl
-#+begin_src sh :var OUT_PATH=""
-youtube-dl --no-warnings \
-  -o '$OUT_PATH/%(title)s.%(ext)s' \
-  --socket-timeout 15 --hls-use-mpegts -R 64 --fragment-retries 64 \
-  --prefer-free-formats --all-subs --embed-subs \
-  -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$@" \
-  --restrict-filenames
-#+end_src
+#+PROPERTY: header-args :eval never-export
+#+STARTUP: show2levels
+#+NAME: env
+| k     | v  |
+|-------+----|
+| SHELL | [] |
+| SHED  | [] |
+| TERM  | [] |
+| LANG  | [] |
+| CFG   | [] |
+| STASH | [] |
+| STAMP | [] |
+| LAB   | [] |
+| BABEL | [] |
+|-------+----|
+#+TBLFM: $2='(getenv $1)
+#+TBLFM: $2=""
 
-*** dev
-**** cargo
-#+name: cargo_update_dir
-#+begin_src sh :var dir=""
-# update all crates in dir
-set -eu
-case $0 in
-   (/*) dir=${0%/*}/;;
-   (*/*) dir=./${0%/*};;
-   (*) dir=.;;
-esac
+* snippet
+** rust_target_triple
+ #+name: rust_target_triple
+ #+begin_src shell
+ rustc -vV | sed -n -e 's/^host: //p'
+ #+end_src
 
-find "$dir/.." -name Cargo.lock -execdir cargo update \;
-#+end_src
-
-#+RESULTS: cargo_update_dir
-
-*** crypto
-#+name: wg_genkey
-#+begin_src sh
-# generate base64-enc keypair in current dir
-umask 077
-wg genkey | tee privatekey | wg pubkey > publickey
-#+end_src
-*** rand
-#+name: urand_4k_file
-#+begin_src sh
-# create 4k of random bytes in file
-dd if=/dev/urandom of=$@ count=4 bs=1024
-#+end_src
-
-#+name: urand_stdout
-#+begin_src sh
-# generate random numbers to stdout
-od -d /dev/urandom
-#+end_src
-
-#+name: urand_sha512
-#+begin_src sh
-# generate hash of 128 random bytes
-dd if=/dev/urandom  count=1 bs=128 | sha512sum
-#+end_src
-*** term
-#+name: term_check
-#+begin_src sh
-stty -a #current settings of all terminal attributes
-bind -p #key bindings
-infocmp #print out a terminfo description
-#+end_src
-*** virt
-#+name: dd_write_iso
-#+begin_src sh :var iso="" :var disk=""
-dd bs=4M if=$iso of=$disk conv=fdatasync status=progress
-#+end_src
-**** qemu
-#+name: qemu_init_win10
-#+begin_src sh :var boot="win10_x64.iso" :var virt="win10.iso" :var disk="win10.img"
-# this script requires an installation ISO (win10_x64.iso), the
-# virtio-windows-guest drivers (win10.iso), and a fresh disk image to
-# install to (win10.img).
-#
-# the graphic installer will boot and you then need to load the virtio
-# drivers, at which point you can install as usual.
-exec qemu-system-x86_64 -enable-kvm \
-        -cpu host \
-        -cdrom $boot \
-        -drive file=$virt,if=virtio \
-        -drive file=$disk,index=1,media=cdrom \
-        -net nic,model=virtio -net user \
-        -vga qxl \
-        -m 4G \
-        -monitor stdio \
-        -name "Windows" \
-        "$@"
-#+end_src
-
-*** sys
-**** systemd
-#+name: systemctl_list_units
-#+begin_src sh
-systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service
-#+end_src
-**** inotify
-#+name: inotify_watch_dir
-#+begin_src sh :var path="."
-inotifywait -m  $path -e create -e moved_to |
-    while read dir action file; do
-	echo "The file '$file' appeared in directory '$dir' via '$action'"
-    done
-#+end_src
-*** os
-**** macos
-#+name: macos_init
-#+begin_src sh
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install openssl cmake
-curl https://sh.rustup.rs -sSf | sh
-source ~/.cargo/env
-#+end_src
-** py
-*** net
-#+name: simple_http_server
-#+begin_src python
-from http.server import HTTPServer, SimpleHTTPRequestHandler, test
-import sys
-
-class RequestHandler(SimpleHTTPRequestHandler):
-    def end_headers(self):
-        self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
-        self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
-        SimpleHTTPRequestHandler.end_headers(self)
-
-if __name__ == '__main__':
-    test(RequestHandler, HTTPServer, port=int(sys.argv[1]) if len(sys.argv) > 1 else 8000)
-#+end_src
-
-* sn
-** mk
-*** var
-#+name: __default_0
+** make-header
+#+name: make-header
 #+begin_src makefile
 MAKEFLAGS += --warn-undefined-variables
 .DELETE_ON_ERROR:
 #+end_src
-*** rust
-#+name: __rust_triple
-#+begin_src makefile
-HOST_TRIPLE=$(shell rustc -vV | sed -n -e 's/^host: //p')
-#+end_src
-*** util
-#+name: _list
-#+begin_src makefile
-_list: #requires xargs awk egrep
-	@$(MAKE) -pRrq -f ; \
-	$(lastword $(MAKEFILE_LIST)) : \
-		2>/dev/null | awk -v RS= -F: \
-		'/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' \
-		| sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
-#+end_src
-*** demon
-#+name: dm_make
-#+begin_src makefile
-.EXPORT_ALL_VARIABLES:
-DEMON:=$(shell echo ${USER} | tr 'A-Za-z' 'N-ZA-Mn-za-m')dm
-STAMP:=$(STAMP)
+** make-list
+ #+name: make-list
+ #+begin_src makefile
+ _list: #requires xargs awk egrep
+	 @$(MAKE) -pRrq -f ; \
+	 $(lastword $(MAKEFILE_LIST)) : \
+		 2>/dev/null | awk -v RS= -F: \
+		 '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' \
+		 | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
+ #+end_src
+** make-demon
+ #+name: make-demon
+ #+begin_src makefile
+ .EXPORT_ALL_VARIABLES:
+ DEMON:=$(shell echo ${USER} | tr 'A-Za-z' 'N-ZA-Mn-za-m')dm
+ STAMP:=$(STAMP)
 
-.PHONY: _dmadd _dmkill
+ .PHONY: _dmadd _dmkill
 
-_dmadd:useradd $(DEMON) -G demon;\
-  mkdir -p $(STAMP)/dm/.h/$(DEMON);\
-  chown -R $(DEMON):demon $(STAMP)/dm/.h/$(DEMON);\
-  install -C -m 775 -o $(DEMON) -g demon $(STAMP) $(STAMP)/dm/.h/$(DEMON)
+ _dmadd:useradd $(DEMON) -G demon;\
+   mkdir -p $(STAMP)/dm/.h/$(DEMON);\
+   chown -R $(DEMON):demon $(STAMP)/dm/.h/$(DEMON);\
+   install -C -m 775 -o $(DEMON) -g demon $(STAMP) $(STAMP)/dm/.h/$(DEMON)
 
-_dmkill:userdel -f -r $(DEMON);\
-  rm -rf $(STAMP)/dm/.h/$(DEMON)
+ _dmkill:userdel -f -r $(DEMON);\
+   rm -rf $(STAMP)/dm/.h/$(DEMON)
 
-.DEFAULT_GOAL := #reset default
+ .DEFAULT_GOAL := #reset default
 
-#+end_src
+ #+end_src
 
-** rs
-*** macro
-** js
-*** util
-#+name: copy_link_id
+** js-copy-link-id
+#+name: copy-link-id
 #+begin_src js
 function Copy() {
   var Url = document.getElementById("url_id");
@@ -187,64 +73,88 @@ function Copy() {
   document.execCommand("copy");
 }
 #+end_src
-+ example -> \\
+
++ example -- \\
   #+begin_src html
 <div>
   <input type="button" value="Copy Url" onclick="Copy();" />
   <br /> Paste: <textarea id="url_id" rows="1" cols="30"></textarea>
 </div>
   #+end_src
-** sh
-*** util
-**** extract
-    #+begin_src sh
-extract () {
-    if [ -f $1 ] ; then
-	case $1 in
-	    ,*.tar.bz2)        tar xjf $1        ;;
-	    ,*.tar.gz)         tar xzf $1        ;;
-	    ,*.bz2)            bunzip2 $1        ;;
-	    ,*.rar)            unrar x $1        ;;
-	    ,*.gz)             gunzip $1         ;;
-	    ,*.tar)            tar xf $1         ;;
-	    ,*.tbz2)           tar xjf $1        ;;
-	    ,*.tgz)            tar xzf $1        ;;
-	    ,*.zip)            unzip $1          ;;
-	    ,*.Z)              uncompress $1     ;;
-	    ,*.7z)             7zr e $1          ;;
-	    ,*)                echo "'$1' cannot be extracted via extract()" ;;
+** extract
+#+name: extract(f)
+#+begin_src sh
+    if [ -f $f ] ; then
+	case $f in
+	    ,*.tar.bz2)        tar xjf $f        ;;
+	    ,*.tar.gz)         tar xzf $f        ;;
+	    ,*.bz2)            bunzip2 $f       ;;
+	    ,*.rar)            unrar x $f        ;;
+	    ,*.gz)             gunzip $f         ;;
+	    ,*.tar)            tar xf $f         ;;
+	    ,*.tbz2)           tar xjf $f        ;;
+	    ,*.tgz)            tar xzf $f        ;;
+	    ,*.zip)            unzip $f          ;;
+	    ,*.Z)              uncompress $f     ;;
+	    ,*.7z)             7zr e $f          ;;
+	    ,*)                echo "'$f' cannot be extracted via extract()" ;;
 	esac
     else
-	echo "'$1' is not a valid file"
+	echo "'$f' is not a valid file"
     fi
-}
-    #+end_src
-** org
-** el
-*** util
-**** make-dot-tree
-#+name: make-dot-tree
-#+begin_src emacs-lisp :var table=() :results output :exports none
-  (mapcar #'(lambda (x)
-                (princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
-          table)
+#+end_src
+** git-clone
+#+name: git-clone(src)
+#+begin_src sh :results silent
+  git clone $src
+#+end_src
+** hg-clone
+#+name: hg-clone
+#+begin_src sh :var remote=() :results silent
+hg clone $remote
+#+end_src
+** hg-rev
+#+name: hg-rev
+#+begin_src sh :var src=""
+  cd $src && hg identify -i
 #+end_src
 
-#+RESULTS: make-dot-tree
-
-**** gen-dot-tree
-#+name: gen-dot-tree
-#+begin_src dot :file tree.png :cmdline -Kdot -Tpng :var input=make-dot-tree :exports results
-digraph {
-   rankdir=TB;
-   splines=true;
-   node [shape=box];
-   $input
-  }
+** hg-summary
+#+name: shc-hg-summary
+#+begin_src sh :results output :var src=""
+shc s -v $src
 #+end_src
 
-*** org
-**** org-headlines-map
+** shc-weather
+#+name: shc-weather
+#+begin_src sh :results output
+shc s -w
+#+end_src
+** sh-ob-tangle
+#+name: sh-ob-tangle
+#+begin_src sh
+  emacs -Q --batch --eval "
+      (progn
+	(require 'ob-tangle)
+	(dolist (file command-line-args-left)
+	  (with-current-buffer (find-file-noselect file)
+	    (org-babel-tangle))))
+    " "$@"
+#+end_src
+** env-table
+#+name: env-table
+#+begin_src sh :results silent
+  for i in $(env);
+  do
+      echo "$i" | sed '0,/=/s//|/'
+  done
+#+end_src
+** get-env
+#+name: get-env(k)
+#+begin_src elisp :results silent
+(getenv k)
+#+end_src
+** org-headlines-map
 #+name: org-headlines-map
 #+begin_src elisp
   (org-element-map (org-element-parse-buffer 'headline )
@@ -255,14 +165,199 @@ digraph {
              (list (org-element-property :title parent) (org-element-property :title hl))))))
 
 #+end_src
-** py
-** c
-** cpp
-* tm
-** crate
+
+#+RESULTS: org-headlines-map
+| sn                 | rs                 |
+| rs                 | rust_target_triple |
+| rust_target_triple | util               |
+| rust_target_triple | demon              |
+| sn                 | mk                 |
+| mk                 | mk_header          |
+| sn                 | js                 |
+| js                 | copy-link-id       |
+| sn                 | sh                 |
+| sh                 | extract            |
+| sh                 | git-clone          |
+| sh                 | hg-clone           |
+| sh                 | hg-rev             |
+| sh                 | hg-summary         |
+| sh                 | shc-weather        |
+| sh                 | sh-ob-tangle       |
+| sn                 | elisp              |
+| elisp              | org-headlines-map  |
+| elisp              | get-emacs-version  |
+| elisp              | colsum-if          |
+| elisp              | load-file          |
+| elisp              | cp-f               |
+| sn                 | py                 |
+| sn                 | C                  |
+| sn                 | dot                |
+| dot                | dot-version        |
+| dot                | make-dot-tree      |
+| dot                | gen-dot-tree       |
+| skel               | rust               |
+| rust               | bin                |
+| bin                | Cargo.toml         |
+| bin                | rustfmt.toml       |
+| bin                | src/main.rs        |
+| rust               | lib                |
+| lib                | Cargo.toml         |
+| lib                | src/lib.rs         |
+| rust               | mod-bin            |
+| mod-bin            | Cargo.toml         |
+| mod-bin            | main.rs            |
+| rust               | mod-lib            |
+| mod-lib            | Cargo.toml         |
+| mod-lib            | lib.rs             |
+| rust               | app                |
+| app                | Cargo.toml         |
+| app                | src/main.rs        |
+| skel               | lab                |
+| lab                | rust-fu            |
+| lab                | sh-fu              |
+| lab                | windows-10-vm      |
+| lab                | archlinux-vm       |
+| skel               | python             |
+| sc                 | sh                 |
+| sh                 | ytdl               |
+| sh                 | cargo-update-dir   |
+| sh                 | wg-keygen          |
+| sh                 | rand               |
+| sh                 | term-check         |
+| sh                 | virt               |
+| virt               | qemu               |
+| sh                 | sys                |
+| sys                | systemd            |
+| sys                | inotify            |
+| sh                 | os                 |
+| os                 | macos              |
+| sc                 | py                 |
+| py                 | http-server        |
+
+** get-emacs-version
+#+name: get-emacs-version
+#+begin_src elisp :results output
+  (princ (concat (format "%s\n" (emacs-version))
+		 (format "Org v%s" (org-version))))
+#+end_src
+** colsum-if
+sum values in vallist if the corresponding key matches the keymatch
+argument
+#+name: colsum-if
+#+begin_src elisp :var keylist=() vallist=() keymatch=()
+  (cl-loop for key in keylist
+	   for val in vallist
+	   when (equal key keymatch)
+	   sum (string-to-number val))
+#+end_src
+** load-file
+#+name: load-file
+#+begin_src elisp :var file=()
+(load-file file)
+#+end_src
+** cp-f
+#+name: cp-f
+#+begin_src elisp :var in="file" out="path"
+(copy-file in out)
+#+end_src
+** dot-version
+#+begin_src sh
+dot -V 2>&1
+#+end_src
+
+#+RESULTS:
+: dot - graphviz version 2.49.2 (0)
+
+** make-dot-tree
+#+name: make-dot-tree
+#+begin_src emacs-lisp :var table=org-headlines-map :results output
+  (mapcar #'(lambda (x)
+		(princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
+	  table)
+#+end_src
+
+#+RESULTS: make-dot-tree
+#+begin_example
+"sn" -> "rs";
+"rs" -> "rust_target_triple";
+"rust_target_triple" -> "util";
+"rust_target_triple" -> "demon";
+"rs" -> "macro";
+"sn" -> "mk";
+"mk" -> "mk_header";
+"sn" -> "js";
+"js" -> "copy-link-id";
+"sn" -> "sh";
+"sh" -> "extract";
+"sn" -> "org";
+"sn" -> "elisp";
+"elisp" -> "get-emacs-version";
+"elisp" -> "colsum-if";
+"elisp" -> "org-headlines-map";
+"sn" -> "py";
+"sn" -> "c";
+"sn" -> "cpp";
+"sn" -> "dot";
+"dot" -> "dot-version";
+"dot" -> "make-dot-tree";
+"dot" -> "gen-dot-tree";
+"tm" -> "rust";
+"rust" -> "bin";
+"bin" -> "Cargo.toml";
+"bin" -> "rustfmt.toml";
+"bin" -> "src/main.rs";
+"rust" -> "lib";
+"lib" -> "Cargo.toml";
+"lib" -> "src/lib.rs";
+"rust" -> "mod-bin";
+"mod-bin" -> "Cargo.toml";
+"mod-bin" -> "main.rs";
+"rust" -> "mod-lib";
+"mod-lib" -> "Cargo.toml";
+"mod-lib" -> "lib.rs";
+"rust" -> "app";
+"app" -> "Cargo.toml";
+"app" -> "src/main.rs";
+"tm" -> "org";
+"org" -> "babel";
+"tm" -> "python";
+"sc" -> "sh";
+"sh" -> "app";
+"sh" -> "dev";
+"dev" -> "cargo";
+"sh" -> "crypto";
+"sh" -> "rand";
+"sh" -> "term";
+"sh" -> "virt";
+"virt" -> "qemu";
+"sh" -> "sys";
+"sys" -> "systemd";
+"sys" -> "inotify";
+"sh" -> "os";
+"os" -> "macos";
+"sc" -> "py";
+"py" -> "net";
+#+end_example
+
+** gen-dot-tree
+#+name: gen-dot-tree
+#+begin_src dot :file /tmp/tree.png :cmdline -Kdot -Tpng :var input=make-dot-tree
+digraph {
+   rankdir=TB;
+   splines=true;
+   node [shape=box];
+   $input
+  }
+#+end_src
+
+#+RESULTS: gen-dot-tree
+[[file:/tmp/tree.svg]]
+
+* skeleton
+** rust
 *** bin
 **** Cargo.toml
-#+begin_src toml :var name="_bin"
+#+begin_src toml :var name=""
 [package]
 name = "$name"
 version = "0.1.0"
@@ -350,7 +445,147 @@ use rlib::ctx;
 #[ctx::main]
 async fn main() {}
 #+end_src
-* ak
-# auto keys
+** lab
+*** rust-fu
+#+name: rust-fu
+#+begin_src elisp
+#+end_src
+*** sh-fu
+#+name: sh-fu
+#+begin_src elisp
+#+end_src
+*** windows-10-vm
+*** archlinux-vm
+** python
+* abbrev
 #+begin_src emacs-lisp
+
+#+end_src
+* script
+** sh
+*** ytdl
+#+name: ytdl
+#+begin_src sh :var OUT_PATH=""
+youtube-dl --no-warnings \
+  -o '$OUT_PATH/%(title)s.%(ext)s' \
+  --socket-timeout 15 --hls-use-mpegts -R 64 --fragment-retries 64 \
+  --prefer-free-formats --all-subs --embed-subs \
+  -f 'bestvideo[height<=1080]+bestaudio/best[height<=1080]' "$@" \
+  --restrict-filenames
+#+end_src
+
+*** cargo-update-dir
+#+name: cargo-update-dir
+#+begin_src sh :var dir=()
+# update all crates in dir
+set -eu
+case $0 in
+   (/*) dir=${0%/*}/;;
+   (*/*) dir=./${0%/*};;
+   (*) dir=.;;
+esac
+
+find "$dir/.." -name Cargo.lock -execdir cargo update \;
+#+end_src
+
+#+RESULTS: cargo_update_dir
+
+*** wg-keygen
+generate base64-enc keypair in current dir
+#+name: wg-keygen
+#+begin_src sh
+
+umask 077
+wg genkey | tee privatekey | wg pubkey > publickey
+#+end_src
+*** rand
+#+name: urand_4k_file
+#+begin_src sh
+# create 4k of random bytes in file
+dd if=/dev/urandom of=$@ count=4 bs=1024
+#+end_src
+
+#+name: urand_stdout
+#+begin_src sh
+# generate random numbers to stdout
+od -d /dev/urandom
+#+end_src
+
+#+name: urand-sha512
+#+begin_src sh
+# generate hash of 128 random bytes
+dd if=/dev/urandom  count=1 bs=128 | sha512sum
+#+end_src
+*** term-check
+#+name: term-check
+#+begin_src sh
+stty -a #current settings of all terminal attributes
+bind -p #key bindings
+infocmp #print out a terminfo description
+#+end_src
+*** virt
+#+name: dd_write_iso
+#+begin_src sh :var iso="" :var disk=""
+dd bs=4M if=$iso of=$disk conv=fdatasync status=progress
+#+end_src
+**** qemu
+#+name: qemu_init_win10
+#+begin_src sh :var boot="win10_x64.iso" :var virt="win10.iso" :var disk="win10.img"
+# this script requires an installation ISO (win10_x64.iso), the
+# virtio-windows-guest drivers (win10.iso), and a fresh disk image to
+# install to (win10.img).
+#
+# the graphic installer will boot and you then need to load the virtio
+# drivers, at which point you can install as usual.
+exec qemu-system-x86_64 -enable-kvm \
+        -cpu host \
+        -cdrom $boot \
+        -drive file=$virt,if=virtio \
+        -drive file=$disk,index=1,media=cdrom \
+        -net nic,model=virtio -net user \
+        -vga qxl \
+        -m 4G \
+        -monitor stdio \
+        -name "Windows" \
+        "$@"
+#+end_src
+
+*** sys
+**** systemd
+#+name: systemctl_list_units
+#+begin_src sh
+systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service
+#+end_src
+**** inotify
+#+name: inotify-watch-dir
+#+begin_src sh :var dir="."
+inotifywait -m  $path -e create -e moved_to |
+    while read dir action file; do
+	echo "The file '$file' appeared in directory '$dir' via '$action'"
+    done
+#+end_src
+*** os
+**** macos
+#+name: macos_init
+#+begin_src sh
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install openssl cmake
+curl https://sh.rustup.rs -sSf | sh
+source ~/.cargo/env
+#+end_src
+** py
+*** http-server
+#+name: http-server
+#+begin_src python
+from http.server import HTTPServer, SimpleHTTPRequestHandler, test
+import sys
+
+class RequestHandler(SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('Cross-Origin-Opener-Policy', 'same-origin')
+        self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
+        SimpleHTTPRequestHandler.end_headers(self)
+
+if __name__ == '__main__':
+    test(RequestHandler, HTTPServer, port=int(sys.argv[1]) if len(sys.argv) > 1 else 8000)
 #+end_src

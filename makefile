@@ -3,9 +3,9 @@ B:=$(SHED)/babel
 
 .PHONY: c
 
-o:lob.org sc;mkdir -p $@;cp -r $^ $@
-	emacs --eval '(org-babel-tangle-file "o/$<")'
-	shed pack $@ $@/b.tz
+o:lob.org sc;mkdir -p $@;cp -r $^ $@;\
+emacsclient -q -e '(org-babel-tangle-file "o/$<")' ;\
+shc pack $@ $@/b.tz
 
 c:;rm -rf o
 
