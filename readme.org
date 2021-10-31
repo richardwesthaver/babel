@@ -1,6 +1,5 @@
-# Created 2021-10-30 Sat 08:24
+# Created 2021-10-31 Sun 05:06
 #+title: babel
-#+author: ellis
 - what ← scripts[sc], snippets[sn], and templates[tm]
 - status ← IN_PROGRESS
 - [[https://hg.rwest.io/babel][src]] ⇐
