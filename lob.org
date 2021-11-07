@@ -1,20 +1,20 @@
-#+TITLE: babel
+ #+TITLE: babel
 #+SETUP_FILE: ~/shed/src/meta/ox.setup
 #+PROPERTY: header-args :eval never-export
 #+STARTUP: show2levels
 #+NAME: env
-| k     | v  |
-|-------+----|
-| SHELL | [] |
-| SHED  | [] |
-| TERM  | [] |
-| LANG  | [] |
-| CFG   | [] |
-| STASH | [] |
-| STAMP | [] |
-| LAB   | [] |
-| BABEL | [] |
-|-------+----|
+| k     | v                          |
+|-------+----------------------------|
+| SHELL | /bin/bash                  |
+| SHED  | /home/ellis/shed           |
+| TERM  | dumb                       |
+| LANG  | en_US.UTF-8                |
+| CFG   | /home/ellis/.config        |
+| STASH | /home/ellis/shed/stash     |
+| STAMP | /home/ellis/shed/stash/tmp |
+| LAB   | /home/ellis/shed/lab       |
+| BABEL | /home/ellis/shed/babel     |
+|-------+----------------------------|
 #+TBLFM: $2='(getenv $1)
 #+TBLFM: $2=""
 
@@ -121,11 +121,33 @@ hg clone $remote
 
 ** hg-summary
 #+name: shc-hg-summary
-#+begin_src sh :results output :var src=""
-shc s -v $src
+#+begin_src sh :results output
+shc s -v $x
+#+end_src
+
+** org-capture-stdout
+#+name: org-capture-stdout
+#+begin_src shell :tangle yes
+  #!/bin/bash
+
+  TITLE="$*"
+  CONTENT="
+       ,#+BEGIN_EXAMPLE
+  $(cat | sed 's/^/     /g')
+       ,#+END_EXAMPLE
+  "
+
+  if [[ -n $TITLE ]]
+  then
+      CONTENT="   - ${TITLE}\n${CONTENT}"
+  fi
+
+  /usr/local/bin/emacsclient -c -n \
+                             -e "(progn (org-capture-string \"$CONTENT\" \"3\") (delete-frame))"
 #+end_src
 
 ** shc-weather
+print a quick forecast
 #+name: shc-weather
 #+begin_src sh :results output
 shc s -w
@@ -457,13 +479,8 @@ async fn main() {}
 *** windows-10-vm
 *** archlinux-vm
 ** python
-* abbrev
-#+begin_src emacs-lisp
-
-#+end_src
 * script
-** sh
-*** ytdl
+** ytdl
 #+name: ytdl
 #+begin_src sh :var OUT_PATH=""
 youtube-dl --no-warnings \
@@ -474,7 +491,7 @@ youtube-dl --no-warnings \
   --restrict-filenames
 #+end_src
 
-*** cargo-update-dir
+** cargo-update-dir
 #+name: cargo-update-dir
 #+begin_src sh :var dir=()
 # update all crates in dir
@@ -490,7 +507,7 @@ find "$dir/.." -name Cargo.lock -execdir cargo update \;
 
 #+RESULTS: cargo_update_dir
 
-*** wg-keygen
+** wg-keygen
 generate base64-enc keypair in current dir
 #+name: wg-keygen
 #+begin_src sh
@@ -498,7 +515,7 @@ generate base64-enc keypair in current dir
 umask 077
 wg genkey | tee privatekey | wg pubkey > publickey
 #+end_src
-*** rand
+** rand
 #+name: urand_4k_file
 #+begin_src sh
 # create 4k of random bytes in file
@@ -516,19 +533,19 @@ od -d /dev/urandom
 # generate hash of 128 random bytes
 dd if=/dev/urandom  count=1 bs=128 | sha512sum
 #+end_src
-*** term-check
+** term-check
 #+name: term-check
 #+begin_src sh
 stty -a #current settings of all terminal attributes
 bind -p #key bindings
 infocmp #print out a terminfo description
 #+end_src
-*** virt
+** virt
 #+name: dd_write_iso
 #+begin_src sh :var iso="" :var disk=""
 dd bs=4M if=$iso of=$disk conv=fdatasync status=progress
 #+end_src
-**** qemu
+*** qemu
 #+name: qemu_init_win10
 #+begin_src sh :var boot="win10_x64.iso" :var virt="win10.iso" :var disk="win10.img"
 # this script requires an installation ISO (win10_x64.iso), the
@@ -550,13 +567,13 @@ exec qemu-system-x86_64 -enable-kvm \
         "$@"
 #+end_src
 
-*** sys
-**** systemd
+** sys
+*** systemd
 #+name: systemctl_list_units
 #+begin_src sh
 systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service
 #+end_src
-**** inotify
+*** inotify
 #+name: inotify-watch-dir
 #+begin_src sh :var dir="."
 inotifywait -m  $path -e create -e moved_to |
@@ -564,8 +581,8 @@ inotifywait -m  $path -e create -e moved_to |
 	echo "The file '$file' appeared in directory '$dir' via '$action'"
     done
 #+end_src
-*** os
-**** macos
+** os
+*** macos
 #+name: macos_init
 #+begin_src sh
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -573,8 +590,7 @@ brew install openssl cmake
 curl https://sh.rustup.rs -sSf | sh
 source ~/.cargo/env
 #+end_src
-** py
-*** http-server
+** http-server
 #+name: http-server
 #+begin_src python
 from http.server import HTTPServer, SimpleHTTPRequestHandler, test
