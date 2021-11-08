@@ -19,8 +19,8 @@
 #+TBLFM: $2=""
 
 * snippet
-** rust_target_triple
- #+name: rust_target_triple
+** rust-target-triple
+ #+name: rust-target-triple
  #+begin_src shell
  rustc -vV | sed -n -e 's/^host: //p'
  #+end_src
@@ -121,10 +121,9 @@ hg clone $remote
 
 ** hg-summary
 #+name: shc-hg-summary
-#+begin_src sh :results output
-shc s -v $x
+#+begin_src sh :results output :var src="."
+shc s -v $src
 #+end_src
-
 ** org-capture-stdout
 #+name: org-capture-stdout
 #+begin_src shell :tangle yes
@@ -172,9 +171,9 @@ shc s -w
   done
 #+end_src
 ** get-env
-#+name: get-env(k)
-#+begin_src elisp :results silent
-(getenv k)
+#+name: get-env
+#+begin_src elisp :results silent :var key=""
+(getenv key)
 #+end_src
 ** org-headlines-map
 #+name: org-headlines-map
@@ -540,6 +539,9 @@ stty -a #current settings of all terminal attributes
 bind -p #key bindings
 infocmp #print out a terminfo description
 #+end_src
+
+#+RESULTS: term-check
+
 ** virt
 #+name: dd_write_iso
 #+begin_src sh :var iso="" :var disk=""
