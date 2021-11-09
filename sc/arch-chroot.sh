@@ -1,8 +1,8 @@
 #!/usr/bin/sh
-src=http://mirrors.mit.edu/archlinux/iso/2020.11.01/archlinux-bootstrap-2020.11.01-x86_64.tar.gz
-archive=/tmp/archlinux-bootstrap-2020.05.01-x86_64.tar.gz
-image=/tmp/image.raw
-mountpoint=/tmp/arch
+src=http://mirrors.mit.edu/archlinux/iso/2021.11.01/archlinux-bootstrap-2021.11.01-x86_64.tar.gz
+archive=$STAMP/archlinux-bootstrap-2021.11.01-x86_64.tar.gz
+image=$STAMP/image.raw
+mountpoint=$STAMP/arch
 
 if [[ ! -f $archive ]]; then
     wget $src -O $archive
@@ -10,7 +10,7 @@ fi
 
 mkdir $mountpoint
 
-qemu-img create -f raw $image 20G
+qemu-img create -f raw $image 16G
 loop=$(sudo losetup --show -f -P $image)
 sudo parted $loop mklabel msdos
 sudo parted -a optimal $loop mkpart primary 0% 100%
@@ -23,7 +23,7 @@ sudo tar xf $archive -C $mountpoint --strip-components 1
 sudo $mountpoint/bin/arch-chroot $mountpoint /bin/bash <<EOL
 set -v
 
-echo 'Server = http://ftp.uni-bayreuth.de/linux/archlinux/\$repo/os/\$arch' >> /etc/pacman.d/mirrorlist
+echo 'Server = http://mirror.erickochen.nl/archlinux/\$repo/os/\$arch' >> /etc/pacman.d/mirrorlist
 
 pacman-key --init
 pacman-key --populate archlinux
@@ -32,8 +32,8 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm base linux linux-firmware mkinitcpio dhcpcd syslinux
 systemctl enable dhcpcd
 
-# Standard Archlinux Setup
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+# Standard Arch Linux Setup
+ln -sf /usr/share/zoneinfo/EST /etc/localtime
 hwclock --systohc
 echo en_US.UTF-8 UTF-8 >> /etc/locale.gen
 locale-gen

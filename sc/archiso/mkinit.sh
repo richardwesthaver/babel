@@ -4,10 +4,10 @@ modules="dm-mod ata_piix libata scsi_mod sd_mod ext3 jbd"
 
 # directory to use for building the image
 # mount tmpfs or another disk/LV here for extra safety from damage to the host system
-DIR=/tmp/initrd
+DIR=$STAMP/initrd
 
 # where to write the file when it's done
-TARGET_FILE=/boot/initrd.cpio.gz
+TARGET_FILE=$STAMP/initrd.cpio.gz
 [ -n "$1" ] && TARGET_FILE="$1"
 
 # use ldd(1) to determine all the dynamic libraries a program is

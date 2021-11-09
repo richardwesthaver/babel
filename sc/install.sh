@@ -1,13 +1,11 @@
 #!/usr/bin/sh
 # --++--
 # generic install script
-#
-# this script is based off rustup-init.sh
 set -u
 
 # If PKG_URL_ROOT is unset or empty, default it.
-PKG_URL_ROOT="${PKG_URL_ROOT:-https://pkg.rwest.io}"
-PKG_NAME=hi
+PKG_URL_ROOT="${PKG_URL_ROOT:-https://rwest.io/y}"
+PKG_NAME=shc
 
 main () {
     need_cmd chmod
@@ -96,9 +94,9 @@ main () {
 
 check_proc() {
     # Check for /proc by looking for the /proc/self/exe link
-    # This is only run on Linux
+    # This only run on Linux
     if ! test -L /proc/self/exe ; then
-        err "fatal: Unable to find /proc/self/exe.  Is /proc mounted?  Installation cannot proceed without /proc."
+        err "fatal: Unable to find /proc/self/exe.  Is /proc mounted?"
     fi
 }
 

@@ -115,8 +115,8 @@ hg clone $remote
 #+end_src
 ** hg-rev
 #+name: hg-rev
-#+begin_src sh :var src=""
-  cd $src && hg identify -i
+#+begin_src sh :results output
+  hg identify -i
 #+end_src
 
 ** hg-summary
@@ -479,6 +479,8 @@ async fn main() {}
 *** archlinux-vm
 ** python
 * script
+** meta
+
 ** ytdl
 #+name: ytdl
 #+begin_src sh :var OUT_PATH=""

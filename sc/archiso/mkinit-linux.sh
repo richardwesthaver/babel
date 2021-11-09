@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 # download, verify, unpack, and supply config to linux-5.x from scratch.
 # this takes a while.
-linux_version="5.12"
-build_dir="$HOME/stash/tmp"
+linux_version="5.15"
+build_dir="$STAMP/linux-$linux_version"
 
 mkdir -pv $build_dir
 cd $build_dir
