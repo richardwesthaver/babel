@@ -1,6 +1,6 @@
 #!/bin/sh
 # export REPO to git REMOTE
-REPO=shed
+REPO=meta
 SRC=$SHED/src/$REPO
 REMOTE=git@github.com:richardwesthaver/$REPO.git
 WD=$STAMP
