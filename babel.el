@@ -211,10 +211,10 @@ The skeleton will be bound to fu-NAME."
 
 ;;;; Dynamic Blocks 
 (defun org-dblock-write:meta-info (v)
-  "this is a dynamic-block writer function. Creates a new info-tbl block for meta docs.
+  "this is a dynamic-block writer function. Creates a new info-tbl block for meta docs."
   (let ((name (plist-get v :src)))
     (insert "name"
-	    name))))
+	    name)))
 ;;;; pkg 
 (provide 'babel)
 ;;; babel.el ends here
