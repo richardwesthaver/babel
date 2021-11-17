@@ -1,4 +1,4 @@
-# Created 2021-11-12 Fri 02:49
+# Created 2021-11-17 Wed 00:43
 #+title: babel
 This project is an extension of the [[https://orgmode.org/manual/Library-of-Babel.html][Library of Babel]] - which allows
 you to define blocks of code in an org file, and call them remotely
@@ -9,6 +9,14 @@ case, but the powerful functionality of =org-babel= is still there.
 =babel.el= is the core package for this library. It includes a few
 extensions to built-in packages, a minor-mode, and a framework for
 using code blocks in various contexts. More on that later.
+
+#+results: 
+| key     | val                                      |
+|---------+------------------------------------------|
+| name    | nil                                      |
+| version | alpha-0.1                                |
+| rev     | [[https://hg.rwest.io/nil/rev/nil][nil]] |
+| update  | nil                                      |
 
 * Literate Programming
 Literate Programming (LP) was first introduced by Donald Knuth in 1984 via

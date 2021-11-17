@@ -1,23 +1,10 @@
  #+TITLE: babel
 #+SETUP_FILE: ~/shed/src/meta/ox.setup
 #+PROPERTY: header-args :eval never-export
-#+STARTUP: show2levels
-#+NAME: env
-| k     | v                          |
-|-------+----------------------------|
-| SHELL | /bin/bash                  |
-| SHED  | /home/ellis/shed           |
-| TERM  | dumb                       |
-| LANG  | en_US.UTF-8                |
-| CFG   | /home/ellis/.config        |
-| STASH | /home/ellis/shed/stash     |
-| STAMP | /home/ellis/shed/stash/tmp |
-| LAB   | /home/ellis/shed/lab       |
-| BABEL | /home/ellis/shed/babel     |
-|-------+----------------------------|
-#+TBLFM: $2='(getenv $1)
-#+TBLFM: $2=""
 
+#+BEGIN: block-update-time :format "on %m/%d/%Y at %H:%M"
+Last block update at: on 11/15/2021 at 01:47
+#+END:
 * snippet
 ** rust-target-triple
  #+name: rust-target-triple
@@ -115,8 +102,27 @@ hg clone $remote
 #+end_src
 ** hg-rev
 #+name: hg-rev
+#+begin_src sh :results output :var path="."
+cd $path && hg log -l 1 --template '{node|short}'
+#+end_src
+
+#+RESULTS: hg-rev
+: edadbeb26482
+
+** hg-log-age
+#+name: hg-log-age
 #+begin_src sh :results output
-  hg identify -i
+  hg log -l1 --template "{date|age}"
+#+end_src
+** tokei-json
+#+name: tokei-json
+#+begin_src shell :wrap src js :results raw
+tokei -o json
+#+end_src
+
+#+RESULTS: tokei-json
+#+begin_src js
+{"Emacs Lisp":{"blanks":62,"children":{},"code":394,"comments":86,"inaccurate":false,"reports":[{"name":"./babel.el","stats":{"blanks":26,"blobs":{},"code":148,"comments":40}},{"name":"./sc/lisp/shed.el","stats":{"blanks":33,"blobs":{},"code":199,"comments":46}},{"name":"./o/sc/elisp/publish.el","stats":{"blanks":3,"blobs":{},"code":47,"comments":0}}]},"Haskell":{"blanks":6,"children":{},"code":26,"comments":10,"inaccurate":false,"reports":[{"name":"./sc/monads.hs","stats":{"blanks":3,"blobs":{},"code":13,"comments":5}},{"name":"./o/sc/monads.hs","stats":{"blanks":3,"blobs":{},"code":13,"comments":5}}]},"Makefile":{"blanks":12,"children":{},"code":16,"comments":3,"inaccurate":false,"reports":[{"name":"./makefile","stats":{"blanks":4,"blobs":{},"code":7,"comments":1}},{"name":"./sc/makefile","stats":{"blanks":8,"blobs":{},"code":9,"comments":2}}]},"Org":{"blanks":554,"children":{},"code":7454,"comments":50,"inaccurate":false,"reports":[{"name":"./lob.org","stats":{"blanks":48,"blobs":{},"code":581,"comments":9}},{"name":"./sc/cv.org","stats":{"blanks":4,"blobs":{},"code":81,"comments":0}},{"name":"./sc/index.org","stats":{"blanks":8,"blobs":{},"code":88,"comments":0}},{"name":"./readme.org","stats":{"blanks":11,"blobs":{},"code":56,"comments":1}},{"name":"./sc/readme.org","stats":{"blanks":25,"blobs":{},"code":214,"comments":2}},{"name":"./sc/m.org","stats":{"blanks":85,"blobs":{},"code":990,"comments":1}},{"name":"./o/lob.org","stats":{"blanks":29,"blobs":{},"code":316,"comments":11}},{"name":"./sc/n.org","stats":{"blanks":344,"blobs":{},"code":5128,"comments":26}}]},"PowerShell":{"blanks":0,"children":{},"code":6,"comments":4,"inaccurate":false,"reports":[{"name":"./sc/powershell/win-dlx-bitsadmin.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./sc/powershell/win-dlbin64-certutil.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./sc/powershell/nbd-firewall-rule.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./o/sc/powershell/win-dlx-bitsadmin.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./o/sc/powershell/win-dlbin64-certutil.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./o/sc/powershell/nbd-firewall-rule.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}}]},"Python":{"blanks":204,"children":{},"code":868,"comments":106,"inaccurate":false,"reports":[{"name":"./sc/sm_scrape.py","stats":{"blanks":9,"blobs":{},"code":34,"comments":2}},{"name":"./sc/hackrf.py","stats":{"blanks":33,"blobs":{},"code":123,"comments":17}},{"name":"./sc/org.py","stats":{"blanks":11,"blobs":{},"code":48,"comments":1}},{"name":"./o/sc/org.py","stats":{"blanks":11,"blobs":{},"code":48,"comments":1}},{"name":"./sc/fm_radio_rx.py","stats":{"blanks":20,"blobs":{},"code":166,"comments":15}},{"name":"./o/sc/fm_radio_rx.py","stats":{"blanks":20,"blobs":{},"code":166,"comments":15}},{"name":"./o/sc/sm_scrape.py","stats":{"blanks":9,"blobs":{},"code":34,"comments":2}},{"name":"./o/sc/hackrf.py","stats":{"blanks":33,"blobs":{},"code":123,"comments":17}},{"name":"./sc/build-efi.py","stats":{"blanks":29,"blobs":{},"code":63,"comments":18}},{"name":"./o/sc/build-efi.py","stats":{"blanks":29,"blobs":{},"code":63,"comments":18}}]},"Rust":{"blanks":61,"children":{"Markdown":[{"name":"./sc/src/coding.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/web/client.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":4}},{"name":"./sc/src/web/server.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":4}},{"name":"./sc/src/daemon.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/lib.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/bin/shs.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/bin/shd.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/bin/shc.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/build.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/web.rs","stats":{"blanks":1,"blobs":{},"code":0,"comments":14}},{"name":"./sc/src/config.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":2}},{"name":"./sc/src/cli.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":1}},{"name":"./sc/src/app.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":14}}]},"code":889,"comments":51,"inaccurate":false,"reports":[{"name":"./sc/src/coding.rs","stats":{"blanks":6,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":30,"comments":4}},{"name":"./sc/src/web/client.rs","stats":{"blanks":1,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":4}},"code":7,"comments":5}},{"name":"./sc/src/web/server.rs","stats":{"blanks":3,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":4}},"code":26,"comments":5}},{"name":"./sc/src/crypto.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":0}},{"name":"./sc/src/store.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/stash.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/daemon.rs","stats":{"blanks":2,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":11,"comments":0}},{"name":"./sc/src/lib.rs","stats":{"blanks":4,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":7,"comments":17}},{"name":"./sc/src/bin/shk.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/bin/shx.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/bin/shs.rs","stats":{"blanks":1,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":6,"comments":0}},{"name":"./sc/src/bin/shd.rs","stats":{"blanks":1,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":6,"comments":0}},{"name":"./sc/src/bin/shc.rs","stats":{"blanks":3,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":10,"comments":1}},{"name":"./sc/build.rs","stats":{"blanks":4,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":20,"comments":7}},{"name":"./sc/src/web.rs","stats":{"blanks":11,"blobs":{"Markdown":{"blanks":1,"blobs":{},"code":0,"comments":14}},"code":94,"comments":0}},{"name":"./sc/src/config.rs","stats":{"blanks":7,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":2}},"code":78,"comments":0}},{"name":"./sc/src/cli.rs","stats":{"blanks":0,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":165,"comments":0}},{"name":"./sc/src/app.rs","stats":{"blanks":18,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":14}},"code":425,"comments":12}}]},"Shell":{"blanks":492,"children":{},"code":2547,"comments":621,"inaccurate":false,"reports":[{"name":"./sc/check_term_colors.sh","stats":{"blanks":0,"blobs":{},"code":6,"comments":1}},{"name":"./sc/setup-monitors.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./sc/hg-export-bundle.sh","stats":{"blanks":1,"blobs":{},"code":8,"comments":2}},{"name":"./sc/set_bg.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/arch-chroot.sh","stats":{"blanks":11,"blobs":{},"code":45,"comments":6}},{"name":"./sc/hg-export-github.sh","stats":{"blanks":1,"blobs":{},"code":12,"comments":6}},{"name":"./sc/wg-gen-keys.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":2}},{"name":"./sc/set-version.sh","stats":{"blanks":5,"blobs":{},"code":18,"comments":5}},{"name":"./sc/port-scan.sh","stats":{"blanks":8,"blobs":{},"code":45,"comments":2}},{"name":"./sc/hg-unbundle.sh","stats":{"blanks":0,"blobs":{},"code":8,"comments":4}},{"name":"./sc/nfs-re-export.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":1}},{"name":"./sc/hg-pull.sh","stats":{"blanks":4,"blobs":{},"code":11,"comments":6}},{"name":"./sc/qemu-init-win10.sh","stats":{"blanks":0,"blobs":{},"code":11,"comments":8}},{"name":"./sc/record_gif.sh","stats":{"blanks":0,"blobs":{},"code":3,"comments":2}},{"name":"./sc/hg-bundle.sh","stats":{"blanks":6,"blobs":{},"code":25,"comments":5}},{"name":"./sc/gen_rust_docs.sh","stats":{"blanks":3,"blobs":{},"code":11,"comments":2}},{"name":"./sc/add-demon.sh","stats":{"blanks":2,"blobs":{},"code":12,"comments":1}},{"name":"./sc/fuzz.sh","stats":{"blanks":6,"blobs":{},"code":27,"comments":3}},{"name":"./o/sc/archiso/repoctl-upgrade.sh","stats":{"blanks":2,"blobs":{},"code":12,"comments":2}},{"name":"./o/sc/archiso/test.sh","stats":{"blanks":6,"blobs":{},"code":26,"comments":21}},{"name":"./o/sc/iso-write.sh","stats":{"blanks":0,"blobs":{},"code":3,"comments":1}},{"name":"./sc/pipes.sh","stats":{"blanks":45,"blobs":{},"code":256,"comments":83}},{"name":"./o/sc/wg-gen-keys.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":2}},{"name":"./sc/rust_docs_bootstrap_frontend.sh","stats":{"blanks":14,"blobs":{},"code":72,"comments":2}},{"name":"./o/sc/set-version.sh","stats":{"blanks":5,"blobs":{},"code":18,"comments":5}},{"name":"./o/sc/hg-unbundle.sh","stats":{"blanks":0,"blobs":{},"code":8,"comments":4}},{"name":"./o/sc/port-scan.sh","stats":{"blanks":8,"blobs":{},"code":45,"comments":2}},{"name":"./o/sc/archiso/first-run.sh","stats":{"blanks":1,"blobs":{},"code":1,"comments":2}},{"name":"./o/sc/archiso/provision.sh","stats":{"blanks":8,"blobs":{},"code":23,"comments":1}},{"name":"./o/sc/archiso/mkinit-linux.sh","stats":{"blanks":1,"blobs":{},"code":15,"comments":7}},{"name":"./o/sc/pipes.sh","stats":{"blanks":45,"blobs":{},"code":256,"comments":83}},{"name":"./o/sc/nfs-re-export.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":1}},{"name":"./o/sc/hg-pull.sh","stats":{"blanks":4,"blobs":{},"code":11,"comments":6}},{"name":"./o/sc/crater-export-github.sh","stats":{"blanks":1,"blobs":{},"code":10,"comments":2}},{"name":"./o/sc/qemu-init-win10.sh","stats":{"blanks":0,"blobs":{},"code":11,"comments":8}},{"name":"./o/sc/record_gif.sh","stats":{"blanks":0,"blobs":{},"code":3,"comments":2}},{"name":"./o/sc/hg-bundle.sh","stats":{"blanks":6,"blobs":{},"code":25,"comments":5}},{"name":"./o/sc/hg-export-bundle.sh","stats":{"blanks":1,"blobs":{},"code":8,"comments":2}},{"name":"./o/sc/connctl.sh","stats":{"blanks":2,"blobs":{},"code":7,"comments":1}},{"name":"./o/sc/check_term_colors.sh","stats":{"blanks":0,"blobs":{},"code":6,"comments":1}},{"name":"./o/sc/setup-monitors.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./o/sc/set_bg.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./o/sc/gen_rust_docs.sh","stats":{"blanks":3,"blobs":{},"code":11,"comments":2}},{"name":"./o/sc/archiso/mkinit.sh","stats":{"blanks":45,"blobs":{},"code":175,"comments":65}},{"name":"./o/sc/add-demon.sh","stats":{"blanks":2,"blobs":{},"code":12,"comments":1}},{"name":"./o/sc/fuzz.sh","stats":{"blanks":6,"blobs":{},"code":27,"comments":3}},{"name":"./o/sc/rust_docs_bootstrap_frontend.sh","stats":{"blanks":14,"blobs":{},"code":72,"comments":2}},{"name":"./sc/archiso/mkinit-linux.sh","stats":{"blanks":1,"blobs":{},"code":15,"comments":7}},{"name":"./sc/archiso/first-run.sh","stats":{"blanks":1,"blobs":{},"code":1,"comments":2}},{"name":"./sc/archiso/test.sh","stats":{"blanks":6,"blobs":{},"code":26,"comments":21}},{"name":"./o/sc/arch-chroot.sh","stats":{"blanks":11,"blobs":{},"code":45,"comments":6}},{"name":"./sc/install.sh","stats":{"blanks":81,"blobs":{},"code":459,"comments":72}},{"name":"./sc/archiso/mkinit.sh","stats":{"blanks":45,"blobs":{},"code":175,"comments":65}},{"name":"./o/sc/install.sh","stats":{"blanks":81,"blobs":{},"code":459,"comments":74}}]},"TOML":{"blanks":7,"children":{},"code":48,"comments":2,"inaccurate":false,"reports":[{"name":"./sc/rustfmt.toml","stats":{"blanks":0,"blobs":{},"code":3,"comments":0}},{"name":"./sc/Cargo.toml","stats":{"blanks":7,"blobs":{},"code":45,"comments":2}}]},"Total":{"blanks":1398,"children":{"Elisp":[{"name":"./babel.el","stats":{"blanks":26,"blobs":{},"code":148,"comments":40}},{"name":"./sc/lisp/shed.el","stats":{"blanks":33,"blobs":{},"code":199,"comments":46}},{"name":"./o/sc/elisp/publish.el","stats":{"blanks":3,"blobs":{},"code":47,"comments":0}}],"Haskell":[{"name":"./sc/monads.hs","stats":{"blanks":3,"blobs":{},"code":13,"comments":5}},{"name":"./o/sc/monads.hs","stats":{"blanks":3,"blobs":{},"code":13,"comments":5}}],"Makefile":[{"name":"./makefile","stats":{"blanks":4,"blobs":{},"code":7,"comments":1}},{"name":"./sc/makefile","stats":{"blanks":8,"blobs":{},"code":9,"comments":2}}],"Org":[{"name":"./lob.org","stats":{"blanks":48,"blobs":{},"code":581,"comments":9}},{"name":"./sc/cv.org","stats":{"blanks":4,"blobs":{},"code":81,"comments":0}},{"name":"./sc/index.org","stats":{"blanks":8,"blobs":{},"code":88,"comments":0}},{"name":"./readme.org","stats":{"blanks":11,"blobs":{},"code":56,"comments":1}},{"name":"./sc/readme.org","stats":{"blanks":25,"blobs":{},"code":214,"comments":2}},{"name":"./sc/m.org","stats":{"blanks":85,"blobs":{},"code":990,"comments":1}},{"name":"./o/lob.org","stats":{"blanks":29,"blobs":{},"code":316,"comments":11}},{"name":"./sc/n.org","stats":{"blanks":344,"blobs":{},"code":5128,"comments":26}}],"PowerShell":[{"name":"./sc/powershell/win-dlx-bitsadmin.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./sc/powershell/win-dlbin64-certutil.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./sc/powershell/nbd-firewall-rule.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./o/sc/powershell/win-dlx-bitsadmin.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./o/sc/powershell/win-dlbin64-certutil.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./o/sc/powershell/nbd-firewall-rule.ps1","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}}],"Python":[{"name":"./sc/sm_scrape.py","stats":{"blanks":9,"blobs":{},"code":34,"comments":2}},{"name":"./sc/hackrf.py","stats":{"blanks":33,"blobs":{},"code":123,"comments":17}},{"name":"./sc/org.py","stats":{"blanks":11,"blobs":{},"code":48,"comments":1}},{"name":"./o/sc/org.py","stats":{"blanks":11,"blobs":{},"code":48,"comments":1}},{"name":"./sc/fm_radio_rx.py","stats":{"blanks":20,"blobs":{},"code":166,"comments":15}},{"name":"./o/sc/fm_radio_rx.py","stats":{"blanks":20,"blobs":{},"code":166,"comments":15}},{"name":"./o/sc/sm_scrape.py","stats":{"blanks":9,"blobs":{},"code":34,"comments":2}},{"name":"./o/sc/hackrf.py","stats":{"blanks":33,"blobs":{},"code":123,"comments":17}},{"name":"./sc/build-efi.py","stats":{"blanks":29,"blobs":{},"code":63,"comments":18}},{"name":"./o/sc/build-efi.py","stats":{"blanks":29,"blobs":{},"code":63,"comments":18}}],"Rust":[{"name":"./sc/src/coding.rs","stats":{"blanks":6,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":30,"comments":4}},{"name":"./sc/src/web/client.rs","stats":{"blanks":1,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":4}},"code":7,"comments":5}},{"name":"./sc/src/web/server.rs","stats":{"blanks":3,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":4}},"code":26,"comments":5}},{"name":"./sc/src/crypto.rs","stats":{"blanks":0,"blobs":{},"code":0,"comments":0}},{"name":"./sc/src/store.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/stash.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/daemon.rs","stats":{"blanks":2,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":11,"comments":0}},{"name":"./sc/src/lib.rs","stats":{"blanks":4,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":7,"comments":17}},{"name":"./sc/src/bin/shk.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/bin/shx.rs","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/src/bin/shs.rs","stats":{"blanks":1,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":6,"comments":0}},{"name":"./sc/src/bin/shd.rs","stats":{"blanks":1,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":6,"comments":0}},{"name":"./sc/src/bin/shc.rs","stats":{"blanks":3,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":10,"comments":1}},{"name":"./sc/build.rs","stats":{"blanks":4,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":20,"comments":7}},{"name":"./sc/src/web.rs","stats":{"blanks":11,"blobs":{"Markdown":{"blanks":1,"blobs":{},"code":0,"comments":14}},"code":94,"comments":0}},{"name":"./sc/src/config.rs","stats":{"blanks":7,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":2}},"code":78,"comments":0}},{"name":"./sc/src/cli.rs","stats":{"blanks":0,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":1}},"code":165,"comments":0}},{"name":"./sc/src/app.rs","stats":{"blanks":18,"blobs":{"Markdown":{"blanks":0,"blobs":{},"code":0,"comments":14}},"code":425,"comments":12}}],"Sh":[{"name":"./sc/check_term_colors.sh","stats":{"blanks":0,"blobs":{},"code":6,"comments":1}},{"name":"./sc/setup-monitors.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./sc/hg-export-bundle.sh","stats":{"blanks":1,"blobs":{},"code":8,"comments":2}},{"name":"./sc/set_bg.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./sc/arch-chroot.sh","stats":{"blanks":11,"blobs":{},"code":45,"comments":6}},{"name":"./sc/hg-export-github.sh","stats":{"blanks":1,"blobs":{},"code":12,"comments":6}},{"name":"./sc/wg-gen-keys.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":2}},{"name":"./sc/set-version.sh","stats":{"blanks":5,"blobs":{},"code":18,"comments":5}},{"name":"./sc/port-scan.sh","stats":{"blanks":8,"blobs":{},"code":45,"comments":2}},{"name":"./sc/hg-unbundle.sh","stats":{"blanks":0,"blobs":{},"code":8,"comments":4}},{"name":"./sc/nfs-re-export.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":1}},{"name":"./sc/hg-pull.sh","stats":{"blanks":4,"blobs":{},"code":11,"comments":6}},{"name":"./sc/qemu-init-win10.sh","stats":{"blanks":0,"blobs":{},"code":11,"comments":8}},{"name":"./sc/record_gif.sh","stats":{"blanks":0,"blobs":{},"code":3,"comments":2}},{"name":"./sc/hg-bundle.sh","stats":{"blanks":6,"blobs":{},"code":25,"comments":5}},{"name":"./sc/gen_rust_docs.sh","stats":{"blanks":3,"blobs":{},"code":11,"comments":2}},{"name":"./sc/add-demon.sh","stats":{"blanks":2,"blobs":{},"code":12,"comments":1}},{"name":"./sc/fuzz.sh","stats":{"blanks":6,"blobs":{},"code":27,"comments":3}},{"name":"./o/sc/archiso/repoctl-upgrade.sh","stats":{"blanks":2,"blobs":{},"code":12,"comments":2}},{"name":"./o/sc/archiso/test.sh","stats":{"blanks":6,"blobs":{},"code":26,"comments":21}},{"name":"./o/sc/iso-write.sh","stats":{"blanks":0,"blobs":{},"code":3,"comments":1}},{"name":"./sc/pipes.sh","stats":{"blanks":45,"blobs":{},"code":256,"comments":83}},{"name":"./o/sc/wg-gen-keys.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":2}},{"name":"./sc/rust_docs_bootstrap_frontend.sh","stats":{"blanks":14,"blobs":{},"code":72,"comments":2}},{"name":"./o/sc/set-version.sh","stats":{"blanks":5,"blobs":{},"code":18,"comments":5}},{"name":"./o/sc/hg-unbundle.sh","stats":{"blanks":0,"blobs":{},"code":8,"comments":4}},{"name":"./o/sc/port-scan.sh","stats":{"blanks":8,"blobs":{},"code":45,"comments":2}},{"name":"./o/sc/archiso/first-run.sh","stats":{"blanks":1,"blobs":{},"code":1,"comments":2}},{"name":"./o/sc/archiso/provision.sh","stats":{"blanks":8,"blobs":{},"code":23,"comments":1}},{"name":"./o/sc/archiso/mkinit-linux.sh","stats":{"blanks":1,"blobs":{},"code":15,"comments":7}},{"name":"./o/sc/pipes.sh","stats":{"blanks":45,"blobs":{},"code":256,"comments":83}},{"name":"./o/sc/nfs-re-export.sh","stats":{"blanks":0,"blobs":{},"code":2,"comments":1}},{"name":"./o/sc/hg-pull.sh","stats":{"blanks":4,"blobs":{},"code":11,"comments":6}},{"name":"./o/sc/crater-export-github.sh","stats":{"blanks":1,"blobs":{},"code":10,"comments":2}},{"name":"./o/sc/qemu-init-win10.sh","stats":{"blanks":0,"blobs":{},"code":11,"comments":8}},{"name":"./o/sc/record_gif.sh","stats":{"blanks":0,"blobs":{},"code":3,"comments":2}},{"name":"./o/sc/hg-bundle.sh","stats":{"blanks":6,"blobs":{},"code":25,"comments":5}},{"name":"./o/sc/hg-export-bundle.sh","stats":{"blanks":1,"blobs":{},"code":8,"comments":2}},{"name":"./o/sc/connctl.sh","stats":{"blanks":2,"blobs":{},"code":7,"comments":1}},{"name":"./o/sc/check_term_colors.sh","stats":{"blanks":0,"blobs":{},"code":6,"comments":1}},{"name":"./o/sc/setup-monitors.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":1}},{"name":"./o/sc/set_bg.sh","stats":{"blanks":0,"blobs":{},"code":1,"comments":0}},{"name":"./o/sc/gen_rust_docs.sh","stats":{"blanks":3,"blobs":{},"code":11,"comments":2}},{"name":"./o/sc/archiso/mkinit.sh","stats":{"blanks":45,"blobs":{},"code":175,"comments":65}},{"name":"./o/sc/add-demon.sh","stats":{"blanks":2,"blobs":{},"code":12,"comments":1}},{"name":"./o/sc/fuzz.sh","stats":{"blanks":6,"blobs":{},"code":27,"comments":3}},{"name":"./o/sc/rust_docs_bootstrap_frontend.sh","stats":{"blanks":14,"blobs":{},"code":72,"comments":2}},{"name":"./sc/archiso/mkinit-linux.sh","stats":{"blanks":1,"blobs":{},"code":15,"comments":7}},{"name":"./sc/archiso/first-run.sh","stats":{"blanks":1,"blobs":{},"code":1,"comments":2}},{"name":"./sc/archiso/test.sh","stats":{"blanks":6,"blobs":{},"code":26,"comments":21}},{"name":"./o/sc/arch-chroot.sh","stats":{"blanks":11,"blobs":{},"code":45,"comments":6}},{"name":"./sc/install.sh","stats":{"blanks":81,"blobs":{},"code":459,"comments":72}},{"name":"./sc/archiso/mkinit.sh","stats":{"blanks":45,"blobs":{},"code":175,"comments":65}},{"name":"./o/sc/install.sh","stats":{"blanks":81,"blobs":{},"code":459,"comments":74}}],"Toml":[{"name":"./sc/rustfmt.toml","stats":{"blanks":0,"blobs":{},"code":3,"comments":0}},{"name":"./sc/Cargo.toml","stats":{"blanks":7,"blobs":{},"code":45,"comments":2}}]},"code":12248,"comments":933,"inaccurate":false,"reports":[]}}
 #+end_src
 
 ** hg-summary
@@ -124,6 +130,12 @@ hg clone $remote
 #+begin_src sh :results output :var src="."
 shc s -v $src
 #+end_src
+** org-current-h1-title
+#+name: org-current-heading-title
+#+begin_src emacs-lisp :exports none
+  (org-element-property :title (save-excursion (org-up-heading-safe) (org-element-at-point)))
+#+end_src
+
 ** org-capture-stdout
 #+name: org-capture-stdout
 #+begin_src shell :tangle yes
@@ -145,6 +157,94 @@ shc s -v $src
                              -e "(progn (org-capture-string \"$CONTENT\" \"3\") (delete-frame))"
 #+end_src
 
+** org-task-tbl
+#+name: org-task-tbl
+#+begin_src emacs-lisp
+  (let* ((ast (org-element-parse-buffer)) ;; built up the abstract syntax tree of the org buffer
+         item-types ; all occuring item types. It could be that some task has more item types than another.
+         tasks ; accumulation list for the tasks
+         current-task ; name of the current task (header of level 1)
+         task-items) ; items of the current task
+    (org-element-map ast 'headline
+      (lambda (hl)
+        (cl-case (org-element-property :level hl)
+          (1 ; We assume here that headers of level 1 are tasks.
+           (when current-task ; registering the old task
+             (setq tasks (cons (cons current-task (nreverse task-items)) tasks)))
+           (setq current-task (org-element-property :raw-value hl) ; preparing the new task
+                 task-items nil))
+          (2 ; item
+           (let ((item-type (org-element-property :raw-value hl)))
+             (setq item-types (cons item-type item-types))
+             (setq task-items (cons (cons item-type (org-element-property :todo-keyword hl))
+                                    task-items)))))))
+    (setq tasks (nreverse (cons (cons current-task (nreverse task-items)) tasks)) ;add the last task
+          item-types (sort (cl-remove-duplicates (nreverse item-types) :test 'string-equal) ; list of unique item types
+                           #'string<)) ;;Sorting the items lexicographical. Other criteria could be applied.
+      ;;;;;;;;;;
+    ;; generating the output table:
+    (apply
+     #'list
+     (cons "Item" (mapcar #'car tasks)) ; header
+     'hline
+     ;; rows:
+     (mapcar
+      ;; mapping the items to the todo states associated to the tasks:
+      (lambda (item-type)
+        (cons item-type
+              (mapcar
+               (lambda (task)
+                 (let ((todo-status (cdr (assoc-string item-type task))))
+                   todo-status))
+               tasks)))
+      item-types)))
+#+end_src
+
+#+RESULTS: org-task-tbl
+| Item               | snippet | skeleton | script |
+|--------------------+---------+----------+--------|
+| cargo-update-dir   | nil     | nil      | nil    |
+| colsum-if          | nil     | nil      | nil    |
+| cp-f               | nil     | nil      | nil    |
+| dot-version        | nil     | nil      | nil    |
+| env-table          | nil     | nil      | nil    |
+| extract            | nil     | nil      | nil    |
+| gen-dot-tree       | nil     | nil      | nil    |
+| get-emacs-version  | nil     | nil      | nil    |
+| get-env            | nil     | nil      | nil    |
+| git-clone          | nil     | nil      | nil    |
+| hg-clone           | nil     | nil      | nil    |
+| hg-log-age         | nil     | nil      | nil    |
+| hg-rev             | nil     | nil      | nil    |
+| hg-summary         | nil     | nil      | nil    |
+| http-server        | nil     | nil      | nil    |
+| js-copy-link-id    | nil     | nil      | nil    |
+| lab                | nil     | nil      | nil    |
+| load-file          | nil     | nil      | nil    |
+| make-demon         | nil     | nil      | nil    |
+| make-dot-tree      | nil     | nil      | nil    |
+| make-header        | nil     | nil      | nil    |
+| make-list          | nil     | nil      | nil    |
+| meta               | nil     | nil      | nil    |
+| org-capture-stdout | nil     | nil      | nil    |
+| org-headlines-map  | nil     | nil      | nil    |
+| org-task-tbl       | nil     | nil      | nil    |
+| os                 | nil     | nil      | nil    |
+| python             | nil     | nil      | nil    |
+| rand               | nil     | nil      | nil    |
+| rust               | nil     | nil      | nil    |
+| rust-target-triple | nil     | nil      | nil    |
+| sh-ob-tangle       | nil     | nil      | nil    |
+| shc-weather        | nil     | nil      | nil    |
+| sys                | nil     | nil      | nil    |
+| term-check         | nil     | nil      | nil    |
+| tokei-json         | nil     | nil      | nil    |
+| virt               | nil     | nil      | nil    |
+| wc-dir-lines       | nil     | nil      | nil    |
+| wc-dir-words       | nil     | nil      | nil    |
+| wg-keygen          | nil     | nil      | nil    |
+| ytdl               | nil     | nil      | nil    |
+
 ** shc-weather
 print a quick forecast
 #+name: shc-weather
@@ -162,6 +262,17 @@ shc s -w
 	  (with-current-buffer (find-file-noselect file)
 	    (org-babel-tangle))))
     " "$@"
+#+end_src
+** wc-dir-lines
+#+name: wc-dir-lines
+#+begin_src shell
+cat * | wc -l
+#+end_src
+
+** wc-dir-words
+#+name: wc-dir-words
+#+begin_src shell
+cat * | wc -w
 #+end_src
 ** env-table
 #+name: env-table
