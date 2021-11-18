@@ -1,4 +1,4 @@
-# Created 2021-11-17 Wed 23:25
+# Created 2021-11-17 Wed 23:52
 #+title: babel
 This project is an extension of the [[https://orgmode.org/manual/Library-of-Babel.html][Library of Babel]] - which allows
 you to define blocks of code in an org file, and call them remotely
@@ -11,10 +11,11 @@ extensions to built-in packages, a minor-mode, and a framework for
 using code blocks in various contexts. More on that later.
 
 #+results: 
-| name    | [[https://rwest.io/m#babel][babel]]                                                                                 |
-| version | alpha-0.1                                                                                                           |
-| vc      | [[https://hg.rwest.io/babel/rev/261c8e39368f][261c8e39368f]], [[https://github.com/richardwesthaver/babel][github]] |
-| updated | 22 hours ago                                                                                                        |
+| name    | [[https://rwest.io/m#babel][babel]]                                                                                     |
+| version | alpha-0.1                                                                                                               |
+| vc      | [[https://hg.rwest.io/babel/rev/17172f1a1d92][72+:17172f1a1d92]], [[https://github.com/richardwesthaver/babel][github]] |
+| updated | 22 hours ago                                                                                                            |
+| count   | 1030 lines, 3783 words                                                                                                  |
 
 * Literate Programming
 Literate Programming (LP) was first introduced by Donald Knuth in 1984 via

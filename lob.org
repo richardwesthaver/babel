@@ -104,6 +104,11 @@ cd $path && hg log -l 1 --template '{node|short}'
 
 #+RESULTS: hg-rev
 : 7cd72295e748
+** hg-id-num
+#+name: hg-id-num
+#+begin_src sh :var path="."
+cd $path && hg id -n
+#+end_src
 
 ** hg-log-age
 #+name: hg-log-age
@@ -261,14 +266,14 @@ shc s -w
 #+end_src
 ** wc-dir-lines
 #+name: wc-dir-lines
-#+begin_src shell
-cat * | wc -l
+#+begin_src shell :var dir="."
+cd $dir && cat * | wc -l
 #+end_src
 
 ** wc-dir-words
 #+name: wc-dir-words
-#+begin_src shell
-cat * | wc -w
+#+begin_src shell :var dir="."
+cd $dir && cat * | wc -w
 #+end_src
 ** env-table
 #+name: env-table
