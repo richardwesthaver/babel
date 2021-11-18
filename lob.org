@@ -1,10 +1,6 @@
  #+TITLE: babel
 #+SETUP_FILE: ~/shed/src/meta/ox.setup
 #+PROPERTY: header-args :eval never-export
-
-#+BEGIN: block-update-time :format "on %m/%d/%Y at %H:%M"
-Last block update at: on 11/15/2021 at 01:47
-#+END:
 * snippet
 ** rust-target-triple
  #+name: rust-target-triple
@@ -132,7 +128,7 @@ shc s -v $src
 #+end_src
 ** org-current-h1-title
 #+name: org-current-heading-title
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :results value
   (org-element-property :title (save-excursion (org-up-heading-safe) (org-element-at-point)))
 #+end_src
 
