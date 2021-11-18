@@ -102,12 +102,12 @@ hg clone $remote
 #+end_src
 ** hg-rev
 #+name: hg-rev
-#+begin_src sh :results output :var path="."
+#+begin_src sh :var path="."
 cd $path && hg log -l 1 --template '{node|short}'
 #+end_src
 
 #+RESULTS: hg-rev
-: edadbeb26482
+: 7cd72295e748
 
 ** hg-log-age
 #+name: hg-log-age
