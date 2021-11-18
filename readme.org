@@ -1,4 +1,4 @@
-# Created 2021-11-17 Wed 06:21
+# Created 2021-11-17 Wed 20:41
 #+title: babel
 This project is an extension of the [[https://orgmode.org/manual/Library-of-Babel.html][Library of Babel]] - which allows
 you to define blocks of code in an org file, and call them remotely
@@ -11,8 +11,6 @@ extensions to built-in packages, a minor-mode, and a framework for
 using code blocks in various contexts. More on that later.
 
 #+results: 
-| key     | val                                      |
-|---------+------------------------------------------|
 | name    | nil                                      |
 | version | alpha-0.1                                |
 | rev     | [[https://hg.rwest.io/nil/rev/nil][nil]] |
