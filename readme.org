@@ -1,4 +1,4 @@
-# Created 2021-11-18 Thu 00:54
+# Created 2021-11-19 Fri 04:26
 #+title: babel
 This project is an extension of the [[https://orgmode.org/manual/Library-of-Babel.html][Library of Babel]] - which allows
 you to define blocks of code in an org file, and call them remotely
@@ -11,11 +11,15 @@ extensions to built-in packages, a minor-mode, and a framework for
 using code blocks in various contexts. More on that later.
 
 #+results: 
-| name    | [[https://rwest.io/m#babel][babel]]                                                                                    |
-| version | alpha-0.1                                                                                                              |
-| vc      | [[https://hg.rwest.io/babel/rev/7f8740fdf0a4][74:7f8740fdf0a4]], [[https://github.com/richardwesthaver/babel][github]] |
-| updated | 23 hours ago                                                                                                           |
-| count   | 1031 lines, 3791 words                                                                                                 |
+| info    |                                                                                                                         |
+|---------+-------------------------------------------------------------------------------------------------------------------------|
+| name    | [[https://rwest.io/m#babel][babel]]                                                                                     |
+| version | alpha-0.1                                                                                                               |
+| vc      | [[https://hg.rwest.io/babel/rev/fc31b7ffb5b2][75+:fc31b7ffb5b2]], [[https://github.com/richardwesthaver/babel][github]] |
+| updated | 26 hours ago                                                                                                            |
+| lines   | 6929 = λ:4712 #:805 _:829                                                                                               |
+| langs   | (Elisp Haskell Makefile Org PowerShell Python Sh)                                                                       |
+|---------+-------------------------------------------------------------------------------------------------------------------------|
 
 * Literate Programming
 Literate Programming (LP) was first introduced by Donald Knuth in 1984 via
