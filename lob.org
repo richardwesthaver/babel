@@ -1,4 +1,4 @@
- #+TITLE: babel
+#+TITLE: babel
 #+SETUP_FILE: ~/shed/src/meta/ox.setup
 #+PROPERTY: header-args :eval never-export
 * snippet
@@ -98,55 +98,51 @@ hg clone $remote
 #+end_src
 ** hg-rev
 #+name: hg-rev
-#+begin_src sh :var path="."
-cd $path && hg log -l 1 --template '{node|short}'
+#+begin_src sh :var src=(org-sbx org-current-heading-title)
+cd ~/shed/src/$src && hg log -l 1 --template '{node|short}'
 #+end_src
-
-#+RESULTS: hg-rev
-: 7cd72295e748
 ** hg-id-num
 #+name: hg-id-num
-#+begin_src sh :var path="."
-cd $path && hg id -n
+#+begin_src shell :var src=(org-sbx org-current-heading-title)
+cd ~/shed/src/$src && hg id -n
 #+end_src
 
 ** hg-log-age
 #+name: hg-log-age
-#+begin_src sh :results output
-  hg log -l1 --template "{date|age}"
+#+begin_src shell :results output :var src=(org-sbx org-current-heading-title)
+  cd ~/shed/src/$src && hg log -l1 --template "{date|age}"
 #+end_src
+
 ** tokei-dir-lines
 #+name: tokei-dir-lines
-#+begin_src shell :var dir="." :results replace raw
-  cd $dir
-  in=`tokei -C -o json`
-  echo $in | jq -r '.["Total"] | .code, .comments, .blanks'
+#+begin_src shell :var src=(org-sbx org-current-heading-title) :results raw
+  cd ~/shed/src/$src
+  input=`tokei -C -o json`
+  echo $input | jq -r '.["Total"] | .code, .comments, .blanks'
 #+end_src
+
 ** tokei-dir-langs
 #+name: tokei-dir-langs
-#+begin_src shell :var dir="." :results replace raw
-  cd $dir
-  in=`tokei -C -o json`
-  echo $in | jq -r '.["Total"].children | keys[]'
+#+begin_src shell :var src=(org-sbx org-current-heading-title) :results raw
+  cd ~/shed/src/$src
+  input=`tokei -C -o json`
+  echo $input | jq -r '.["Total"].children | keys[]'
 #+end_src
 
 ** sum-str-nums
 #+name: sum-str-nums
-#+begin_src emacs-lisp :var x=tokei-dir-lines
+#+begin_src emacs-lisp :var s=tokei-dir-lines
   (let ((tot 0))
     (cl-loop
-     for i in (split-string x) do
+     for i in (split-string s) do
      (setq tot (+ tot (string-to-number i))))
     tot)
 #+end_src
 
-#+RESULTS: sum-str-nums
-: 6347
-
-** hg-summary
+** shc-hg-summary
 #+name: shc-hg-summary
-#+begin_src sh :results output :var src="."
-shc s -v $src
+#+begin_src sh :var p="meta" :results output
+shc s -v ~/shed/src/$p
 #+end_src
 ** org-current-h1-title
 #+name: org-current-heading-title
@@ -218,51 +214,6 @@ shc s -v $src
       item-types)))
 #+end_src
 
-#+RESULTS: org-task-tbl
-| Item               | snippet | skeleton | script |
-|--------------------+---------+----------+--------|
-| cargo-update-dir   | nil     | nil      | nil    |
-| colsum-if          | nil     | nil      | nil    |
-| cp-f               | nil     | nil      | nil    |
-| dot-version        | nil     | nil      | nil    |
-| env-table          | nil     | nil      | nil    |
-| extract            | nil     | nil      | nil    |
-| gen-dot-tree       | nil     | nil      | nil    |
-| get-emacs-version  | nil     | nil      | nil    |
-| get-env            | nil     | nil      | nil    |
-| git-clone          | nil     | nil      | nil    |
-| hg-clone           | nil     | nil      | nil    |
-| hg-log-age         | nil     | nil      | nil    |
-| hg-rev             | nil     | nil      | nil    |
-| hg-summary         | nil     | nil      | nil    |
-| http-server        | nil     | nil      | nil    |
-| js-copy-link-id    | nil     | nil      | nil    |
-| lab                | nil     | nil      | nil    |
-| load-file          | nil     | nil      | nil    |
-| make-demon         | nil     | nil      | nil    |
-| make-dot-tree      | nil     | nil      | nil    |
-| make-header        | nil     | nil      | nil    |
-| make-list          | nil     | nil      | nil    |
-| meta               | nil     | nil      | nil    |
-| org-capture-stdout | nil     | nil      | nil    |
-| org-headlines-map  | nil     | nil      | nil    |
-| org-task-tbl       | nil     | nil      | nil    |
-| os                 | nil     | nil      | nil    |
-| python             | nil     | nil      | nil    |
-| rand               | nil     | nil      | nil    |
-| rust               | nil     | nil      | nil    |
-| rust-target-triple | nil     | nil      | nil    |
-| sh-ob-tangle       | nil     | nil      | nil    |
-| shc-weather        | nil     | nil      | nil    |
-| sys                | nil     | nil      | nil    |
-| term-check         | nil     | nil      | nil    |
-| tokei-json         | nil     | nil      | nil    |
-| virt               | nil     | nil      | nil    |
-| wc-dir-lines       | nil     | nil      | nil    |
-| wc-dir-words       | nil     | nil      | nil    |
-| wg-keygen          | nil     | nil      | nil    |
-| ytdl               | nil     | nil      | nil    |
-
 ** shc-weather
 print a quick forecast
 #+name: shc-weather
@@ -317,74 +268,6 @@ cd $dir && cat * | wc -w
 
 #+end_src
 
-#+RESULTS: org-headlines-map
-| sn                 | rs                 |
-| rs                 | rust_target_triple |
-| rust_target_triple | util               |
-| rust_target_triple | demon              |
-| sn                 | mk                 |
-| mk                 | mk_header          |
-| sn                 | js                 |
-| js                 | copy-link-id       |
-| sn                 | sh                 |
-| sh                 | extract            |
-| sh                 | git-clone          |
-| sh                 | hg-clone           |
-| sh                 | hg-rev             |
-| sh                 | hg-summary         |
-| sh                 | shc-weather        |
-| sh                 | sh-ob-tangle       |
-| sn                 | elisp              |
-| elisp              | org-headlines-map  |
-| elisp              | get-emacs-version  |
-| elisp              | colsum-if          |
-| elisp              | load-file          |
-| elisp              | cp-f               |
-| sn                 | py                 |
-| sn                 | C                  |
-| sn                 | dot                |
-| dot                | dot-version        |
-| dot                | make-dot-tree      |
-| dot                | gen-dot-tree       |
-| skel               | rust               |
-| rust               | bin                |
-| bin                | Cargo.toml         |
-| bin                | rustfmt.toml       |
-| bin                | src/main.rs        |
-| rust               | lib                |
-| lib                | Cargo.toml         |
-| lib                | src/lib.rs         |
-| rust               | mod-bin            |
-| mod-bin            | Cargo.toml         |
-| mod-bin            | main.rs            |
-| rust               | mod-lib            |
-| mod-lib            | Cargo.toml         |
-| mod-lib            | lib.rs             |
-| rust               | app                |
-| app                | Cargo.toml         |
-| app                | src/main.rs        |
-| skel               | lab                |
-| lab                | rust-fu            |
-| lab                | sh-fu              |
-| lab                | windows-10-vm      |
-| lab                | archlinux-vm       |
-| skel               | python             |
-| sc                 | sh                 |
-| sh                 | ytdl               |
-| sh                 | cargo-update-dir   |
-| sh                 | wg-keygen          |
-| sh                 | rand               |
-| sh                 | term-check         |
-| sh                 | virt               |
-| virt               | qemu               |
-| sh                 | sys                |
-| sys                | systemd            |
-| sys                | inotify            |
-| sh                 | os                 |
-| os                 | macos              |
-| sc                 | py                 |
-| py                 | http-server        |
-
 ** get-emacs-version
 #+name: get-emacs-version
 #+begin_src elisp :results output
@@ -416,9 +299,6 @@ argument
 dot -V 2>&1
 #+end_src
 
-#+RESULTS:
-: dot - graphviz version 2.49.2 (0)
-
 ** make-dot-tree
 #+name: make-dot-tree
 #+begin_src emacs-lisp :var table=org-headlines-map :results output
@@ -426,69 +306,6 @@ dot -V 2>&1
 		(princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
 	  table)
 #+end_src
-
-#+RESULTS: make-dot-tree
-#+begin_example
-"sn" -> "rs";
-"rs" -> "rust_target_triple";
-"rust_target_triple" -> "util";
-"rust_target_triple" -> "demon";
-"rs" -> "macro";
-"sn" -> "mk";
-"mk" -> "mk_header";
-"sn" -> "js";
-"js" -> "copy-link-id";
-"sn" -> "sh";
-"sh" -> "extract";
-"sn" -> "org";
-"sn" -> "elisp";
-"elisp" -> "get-emacs-version";
-"elisp" -> "colsum-if";
-"elisp" -> "org-headlines-map";
-"sn" -> "py";
-"sn" -> "c";
-"sn" -> "cpp";
-"sn" -> "dot";
-"dot" -> "dot-version";
-"dot" -> "make-dot-tree";
-"dot" -> "gen-dot-tree";
-"tm" -> "rust";
-"rust" -> "bin";
-"bin" -> "Cargo.toml";
-"bin" -> "rustfmt.toml";
-"bin" -> "src/main.rs";
-"rust" -> "lib";
-"lib" -> "Cargo.toml";
-"lib" -> "src/lib.rs";
-"rust" -> "mod-bin";
-"mod-bin" -> "Cargo.toml";
-"mod-bin" -> "main.rs";
-"rust" -> "mod-lib";
-"mod-lib" -> "Cargo.toml";
-"mod-lib" -> "lib.rs";
-"rust" -> "app";
-"app" -> "Cargo.toml";
-"app" -> "src/main.rs";
-"tm" -> "org";
-"org" -> "babel";
-"tm" -> "python";
-"sc" -> "sh";
-"sh" -> "app";
-"sh" -> "dev";
-"dev" -> "cargo";
-"sh" -> "crypto";
-"sh" -> "rand";
-"sh" -> "term";
-"sh" -> "virt";
-"virt" -> "qemu";
-"sh" -> "sys";
-"sys" -> "systemd";
-"sys" -> "inotify";
-"sh" -> "os";
-"os" -> "macos";
-"sc" -> "py";
-"py" -> "net";
-#+end_example
 
 ** gen-dot-tree
 #+name: gen-dot-tree
@@ -500,9 +317,6 @@ digraph {
    $input
   }
 #+end_src
-
-#+RESULTS: gen-dot-tree
-[[file:/tmp/tree.svg]]
 
 * skeleton
 ** rust
@@ -610,6 +424,57 @@ async fn main() {}
 ** python
 * script
 ** meta
+*** make-info-tbl
+#+name: meta-make-info-tbl
+#+header: :var version="alpha-0.1"
+#+header: :var name=(org-sbx org-current-heading-title)
+#+header: :var dir="/home/ellis/shed/src/"
+#+begin_src emacs-lisp :exports results :results table :eval no-export 
+  (let* ((src (concat dir name))
+         (age (org-sbe hg-log-age ''(dir src)))
+         (rev (org-sbe hg-rev ''(dir src)))
+         (num (org-sbe hg-id-num ''(dir src)))
+         (cc1 (org-sbx tokei-dir-lines ''((dir src))))
+         (cc2 (org-sbx tokei-dir-langs ''((dir src))))
+         (nf (format "[[https://rwest.io/m#%s][%s]]" name name))
+         (rf (format "[[https://hg.rwest.io/%s/rev/%s][%s:%s]]" name rev num rev))
+         (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
+         (vf (format "%s, %s" rf gf))
+         (lsum (org-sbe sum-str-nums ('s 'cc1)))
+         (l (split-string cc1))
+         (lang (split-string cc2))
+         (cf (format "%s = λ:%s #:%s _:%s" lsum (pop l) (pop l) (pop l))))
+    `(hline
+      (name ,nf)
+      (version ,version)
+      (vc ,vf)
+      (updated ,age)
+      (lines ,cf)
+      (langs ,lang)
+      hline))
+  #+end_src
+
+*** make-includes
+:PROPERTIES:
+:ID:       20211123T034810.748005
+:END:
+#+name: meta-make-includes
+#+begin_src emacs-lisp :var i=()
+`((includes ,i))
+#+end_src
+
+*** make-files-tbl
+#+name: meta-ls-files
+#+begin_src sh :results silent :exports none :var a=(expand-file-name "~/shed/src") b=(org-sbx org-current-heading-title)
+  ls -lh $a/$b --time-style=long-iso \
+    |awk '{if (NR!=1) print $8, $5, $6"-"$7}' \
+    |awk 'BEGIN{print "file size updated"}{print $0}'
+#+end_src
+
+#+name: meta-make-files-tbl
+#+begin_src python :var tab=meta-ls-files() :results table :colnames yes :hlines yes :exports results :eval no-export
+return tab
+#+end_src
 
 ** ytdl
 #+name: ytdl
@@ -635,8 +500,6 @@ esac
 
 find "$dir/.." -name Cargo.lock -execdir cargo update \;
 #+end_src
-
-#+RESULTS: cargo_update_dir
 
 ** wg-keygen
 generate base64-enc keypair in current dir
@@ -671,8 +534,6 @@ stty -a #current settings of all terminal attributes
 bind -p #key bindings
 infocmp #print out a terminfo description
 #+end_src
-
-#+RESULTS: term-check
 
 ** virt
 #+name: dd_write_iso
