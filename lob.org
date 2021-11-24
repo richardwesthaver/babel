@@ -455,9 +455,6 @@ async fn main() {}
   #+end_src
 
 *** make-includes
-:PROPERTIES:
-:ID:       20211123T034810.748005
-:END:
 #+name: meta-make-includes
 #+begin_src emacs-lisp :var i=()
 `((includes ,i))
