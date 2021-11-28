@@ -1,4 +1,4 @@
-# Created 2021-11-24 Wed 03:12
+# Created 2021-11-28 Sun 03:47
 #+title: babel
 This project is an extension of the [[https://orgmode.org/manual/Library-of-Babel.html][Library of Babel]] - which allows
 you to define blocks of code in an org file, and call them remotely
@@ -11,14 +11,14 @@ extensions to built-in packages, a minor-mode, and a framework for
 using code blocks in various contexts. More on that later.
 
 #+results: 
-|---------+-------------------------------------------------------------------------------------------------------------------------|
-| name    | [[https://rwest.io/m#babel][babel]]                                                                                     |
-| version | alpha-0.1                                                                                                               |
-| vc      | [[https://hg.rwest.io/babel/rev/2546e63068da][80+:2546e63068da]], [[https://github.com/richardwesthaver/babel][github]] |
-| updated | 61 minutes ago                                                                                                          |
-| lines   | 3317 = λ:2466 #:415 _:436                                                                                               |
-| langs   | (Elisp Haskell Makefile Org PowerShell Python Sh)                                                                       |
-|---------+-------------------------------------------------------------------------------------------------------------------------|
+|---------+------------------------------------------------------------------------------------------------------------------------|
+| name    | [[https://rwest.io/m#babel][babel]]                                                                                    |
+| version | alpha-0.1                                                                                                              |
+| vc      | [[https://hg.rwest.io/babel/rev/cd7021d4de7c][81:cd7021d4de7c]], [[https://github.com/richardwesthaver/babel][github]] |
+| updated | 4 days ago                                                                                                             |
+| lines   | 3317 = λ:2466 #:415 _:436                                                                                              |
+| langs   | (Elisp Haskell Makefile Org PowerShell Python Sh)                                                                      |
+|---------+------------------------------------------------------------------------------------------------------------------------|
 #+results: 
 | includes | (readme.org makefile lob.org babel.el sc/*) |
 
@@ -28,7 +28,7 @@ using code blocks in various contexts. More on that later.
 | babel.el   | 8.0K | 2021-11-17-03:11 |
 | lob.org    | 15K  | 2021-11-23-05:51 |
 | makefile   | 186  | 2021-10-27-02:21 |
-| readme.org | 4.5K | 2021-11-23-04:46 |
+| readme.org | 4.5K | 2021-11-24-03:12 |
 | sc         | 730  | 2021-11-19-05:09 |
 
 * Literate Programming
