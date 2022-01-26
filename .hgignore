@@ -1,6 +1,0 @@
-^target/
-^scratch/
-^o/
-glob:Cargo.lock
-glob:.#*
-glob:*.*~
