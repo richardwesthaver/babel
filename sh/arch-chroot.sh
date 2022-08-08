@@ -1,8 +1,8 @@
 #!/usr/bin/sh
 src=http://mirrors.mit.edu/archlinux/iso/2021.11.01/archlinux-bootstrap-2021.11.01-x86_64.tar.gz
-archive=$STAMP/archlinux-bootstrap-2021.11.01-x86_64.tar.gz
-image=$STAMP/image.raw
-mountpoint=$STAMP/arch
+archive=/tmp/archlinux-bootstrap-2021.11.01-x86_64.tar.gz
+image=/tmp/image.raw
+mountpoint=/mnt/arch
 
 if [[ ! -f $archive ]]; then
     wget $src -O $archive
