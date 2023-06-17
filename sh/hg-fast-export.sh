@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 CD=$PWD
-FE=~/stash/fast-export/hg-fast-export.sh
+FE=PYTHON=python3.11 ~/stash/fast-export/hg-fast-export.sh
 NAME=$(basename $CD)
 git init /tmp/$NAME
 pushd /tmp/$NAME
