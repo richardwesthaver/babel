@@ -1,0 +1,57 @@
+#+TITLE: ros scripts
+
+These scripts are execuses to play with different libraries and set up
+a tight lab environment.
+- [[https://roswell.github.io][roswell]]
+* Packages
+** [[https://github.com/fukamachi/qlot][Qlot]]
+project-local library installer
+#+begin_src lisp
+  (ql:quickload :qlot)
+#+end_src
+** [[https://github.com/a0-prw/simple-currency][simple-currency]]
+** [[https://github.com/atlas-engineer/nyxt][nyxt]]                                                                :app:
+** [[https://github.com/eudoxia0/corona][corona]]
+** [[https://github.com/kanru/cl-isolated][cl-isolated]]
+#+begin_src lisp
+  (ql:quickload :cl-isolated)
+#+end_src
+** [[https://github.com/komi1230/kai][kai]]
+#+begin_src lisp
+  (ql:quickload :kai)
+#+end_src
+** [[https://github.com/guicho271828/trivia/][trivia]]
+Pattern matcher
+** [[https://github.com/fukamachi/dexador][dexador]]
+** [[https://gitlab.common-lisp.net/iterate/iterate][iterate]]
+** [[https://github.com/ddmcdonald/sparser][sparser]]
+** [[https://shinmera.github.io/verbose/][verbose]]
+** [[https://cl-emb.common-lisp.dev/examples.html][cl-emb]]
+** [[https://40ants.com/cldomain/#configuration][cl-domain]]
+** [[https://github.com/yitzchak/common-lisp-jupyter][cl-jupyter]]
+** [[https://github.com/sionescu/libfixposix][libfixposix]]
+** [[https://github.com/sionescu/iolib][iolib]]
+** [[https://quickdocs.org/uiop][uiop]]
+** [[https://github.com/40ants/cl-flamegraph][cl-flamegraph]]
+** [[https://github.com/AccelerationNet/cl-csv][cl-csv]]
+** [[https://github.com/lispci/fiveam][fiveam]]
+** [[https://github.com/fukamachi/rove][rove]]
+** [[https://github.com/fukamachi/cl-project][cl-project]]
+** [[https://github.com/drewc/smug][smug]]
+** [[https://github.com/sirherrbatka/cl-progress-bar/][cl-progress-bar]]
+** [[https://github.com/vindarel/cl-ansi-term][cl-ansi-term]]
+** [[https://github.com/vindarel/cl-readline][cl-readline]]
+** [[https://github.com/libre-man/unix-opts][unix-opts]]
+** [[https://github.com/brown/swank-client][swank-client]]
+** [[https://github.com/brown/swank-crew][swank-crew]]
+** [[https://github.com/tkych/cl-spark][cl-spark]]
+** [[https://github.com/deadtrickster/prometheus.cl][prometheus.cl]]
+** [[https://github.com/y2q-actionman/cl-aws-custom-runtime-test][cl-aws-custom-runtime-test]]
+** [[https://github.com/container-lisp/s2i-lisp][s2i-lisp]]
+** [[https://github.com/usocket/usocket][usocket]]
+** [[https://github.com/ruricolist/spinneret][spinneret]]
+* Refs
+** [[https://github.com/fare/asdf/blob/master/doc/best_practices.md][asdf/best_practices]]
+* Players
+* Groups
+** FiveAM
