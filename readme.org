@@ -1,0 +1,10 @@
+#+TITLE: babel
+The current instance of Babel is a loose collection of scripts
+organized by language. One day we hope to turn this into something
+that resembles Knuth's Literate Programming and Org-mode's
+implementation.
+
+This is one of my 'always in design-phase' projects, with many
+different implementations scattered throughout repos found on
+[[https://lab.rwest.io][lab.rwest.io]] and other private repos (=lob.org=, =babel.org=,
+=babel.el=).
