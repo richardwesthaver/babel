@@ -1,52 +1,44 @@
 #!/usr/bin/env bash
 
-readonly TAG=emacs-28.1
+readonly TAG=emacs-29.0.92
 readonly REPOSITORY=git://git.savannah.gnu.org/emacs.git
-readonly CONFIGURE_OPTIONS=(--without-jpeg
-                            --without-tiff
-                            --without-gif
-                            --without-png
-                            --without-rsvg
-                            --without-imagemagick
-                            --without-sound
-                            --without-makeinfo
-                            --without-gconf
-                            --without-dbus
-                            --without-xml2
-                            --without-makeinfo
-                            --with-x-toolkit=gtk2)
-
-###
+readonly CONFIGURE_OPTIONS=(--with-mailutils
+			    --with-imagemagick
+			    --with-x-toolkit=gtk
+			    --without-pop
+			    --without-sound
+			    --with-json
+			    --enable-link-time-optimization
+			    --with-native-compilation
+			    --with-modules)
 
 readonly PROGRAM=emacs
-source common.sh
+TEMACS=/tmp/$TAG
+# source common.sh
 
-function prepare() {
-    cd "$SOURCE_DIR"
-    
-    ./autogen.sh \
-        || eexit "Failed to generate configure. Maybe some dependencies are missing?"
+function pull() {
+    git clone $REPOSITORY $TEMACS
+}
+function prep() {
+    cd "$TEMACS"
+    ./autogen.sh
     case "$PLATFORM" in
-        mac) ./configure --prefix="$INSTALL_DIR" --with-ns --disable-ns-self-contained "${CONFIGURE_OPTIONS[@]}" \
-                   || eexit "Configure failed. Maybe some dependencies are missing?" ;;
-        *)   ./configure --prefix="$INSTALL_DIR" "${CONFIGURE_OPTIONS[@]}" \
-                   || eexit "Configure failed. Maybe some dependencies are missing?" ;;
+        mac) ./configure --prefix="$INSTALL_DIR" --with-ns --disable-ns-self-contained "${CONFIGURE_OPTIONS[@]}" ;;
+        *)   ./configure --prefix="$INSTALL_DIR" "${CONFIGURE_OPTIONS[@]}" ;;
     esac
 }
 
 function build() {
-    cd "$SOURCE_DIR"
-    make -j $MAXCPUS \
-        || eexit "The build failed. Please check the output for error messages."
+    cd "$TEMACS"
+    NATIVE_FULL_AOT=1 make -j $MAXCPUS
 }
 
 function install() {
-    cd "$SOURCE_DIR"
+    cd "$TEMACS"
     # Ensure we clear out previous install
     rm -R "$INSTALL_DIR/"
     
-    make install datadir="$INSTALL_DIR/share/" \
-        || eexit "The install failed. Please check the output for error messages."
+    make install datadir="$INSTALL_DIR/share/"
 
     status 2 "Copying dependencies"
     ensure-dependencies $(find-binaries "$INSTALL_DIR/")
@@ -66,4 +58,5 @@ function install() {
     esac
 }
 
-main
+prepare
+build
