@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 readonly TAG=emacs-29.0.92
 readonly REPOSITORY=git://git.savannah.gnu.org/emacs.git
 readonly CONFIGURE_OPTIONS=(--with-mailutils
