@@ -1,3 +1,6 @@
+### asm/makefile --- assembly snippets
+
+### Code:
 OVMF_FD?=/usr/share/ovmf/x64/OVMF.fd
 disk?=disk
 qemu?=qemu-system-x86_64 -net none

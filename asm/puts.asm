@@ -1,3 +1,6 @@
+;;; asm/puts --- puts
+
+;;; Code:
 mov rdi,someString
 extern puts
 call puts

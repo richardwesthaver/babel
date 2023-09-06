@@ -1,6 +1,6 @@
-;;; asm/hello.linux.asm --- nasm example
+;;; asm/hello.linux.asm --- nasm example -*- mode:nasm -*-
 
-;; nasm -f elf hello.linux.asm && ld -m elf_x86_64 hello.linux.o -o hello.linux && hello.linux
+;; nasm -f elf hello.linux.asm && ld -m elf_i386 hello.linux.o -o hello.linux && hello.linux
 
 ;;; Code:
 global _start
