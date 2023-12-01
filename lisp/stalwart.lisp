@@ -4,11 +4,13 @@
 
 ;; (ql:quickload :sxql)
 ;; (ql:quickload :dbi)
+;; (ql:quickload :imap)
 ;; (load "stalwart")
 
 ;;; Code:
-(defpackage :stalwart
+(defpackage :b/stalwart
   (:use :cl :sxql :dbi)
+  (:nicknames :stalwart)
   (:export 
    :init-db :delete-db :init-tables :*db-path*
    :create-accounts-table :create-group-members-table :create-emails-table
@@ -17,9 +19,9 @@
 (in-package :stalwart)
 
 ;; #P"/opt/stalwart-mail/data/accounts.sqlite3"
-(defparameter *db-path* #P"accounts.sqlite3")
+(defvar *db-path* #P"accounts.sqlite3")
 
-(defun init-db () (dbi:connect :sqlite3 :database-name *db-path*))
+(defun init-db () (setq *connection* (dbi:connect :sqlite3 :database-name *db-path*)))
 
 (defvar *connection* (init-db))
 
