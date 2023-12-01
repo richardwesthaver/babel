@@ -22,10 +22,10 @@ for i in $(find . -name ".hg" | cut -c 3-); do
 
     cd "$i";
     cd ..;
-    hg bundle -a -t gzip-v2 $OUT/$(basename $(hg root)).hg.gz;
+    #hg bundle -a -t gzip-v2 $OUT/$(basename $(hg root)).hg.gz;
     hg bundle -a -t zstd-v2 $OUT/$(basename $(hg root)).hg.zst;
-    hg bundle -a -t none-v2 $OUT/$(basename $(hg root)).hg;
-    hg debugcreatestreamclonebundle $OUT/$(basename $(hg root)).hg.stream;
+    hg bundle -a -t none-streamv2 $OUT/$(basename $(hg root)).hg.stream;
+    #hg debugcreatestreamclonebundle $OUT/$(basename $(hg root)).hg.stream;
     echo "... Done.";
     cd $SRC_PATH
 done

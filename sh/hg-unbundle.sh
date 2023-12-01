@@ -3,7 +3,7 @@
 # this will generate a directory name 'bundle' in '~/pkg/hg/'
 WD=$HOME/stash/tmp
 BUNDLE_NAME=bundle-$(date "+%Y%m%d")
-PKG_DIR=$HOME/pkg/hg
+PKG_DIR=$HOME/
 echo "unbundling $i to $PKG_DIR/bundle"
 # the zstd options for tar no work for me, decompress archive (this should be MacOS only, maybe Win. need to add checks)
 unzstd $WD/$BUNDLE_NAME.tar.zst
