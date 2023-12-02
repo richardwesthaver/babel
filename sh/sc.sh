@@ -1,2 +1,2 @@
 #!/bin/sh
-import png:- >> ${1:-/dev/stdout}
+import png:- >> ${1:-"$(date +%s).png"}
