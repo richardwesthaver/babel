@@ -1,16 +1,21 @@
 BIN_DIR=~/.local/bin
 LIB_DIR=~/.local/lib
 BIN_SRC=py/* sh/* hs/* ps/*
-LIB_SRC=all.lisp lisp/*
-ASD=b.asd
-install:$(BIN_DIR) $(LIB_DIR) $(LIB_DIR)/lisp/core
+LIB_SRC=lob
+ASD=lob/lob.asd
+install:$(BIN_DIR) $(LIB_DIR) $(LIB_DIR)/lisp/fasl
 .PHONY:$(BIN_SRC) $(LIB_SRC) core
 ql:;ln -sf $(realpath $(ASD)) ~/quicklisp/local-projects/$(ASD)
 $(BIN_SRC):;chmod +x $@
-$(LIB_DIR)/lisp/core:sh/sbcl-save-core.sh;
+$(LIB_DIR)/lisp/fasl:sh/sbcl-save-core.sh;
 	mkdir -pv $@
 	$< "$@/std.core"
-	$< "$@/lib.core" "(mapc #'ql:quickload (list :dot :nlp :rdb :organ :packy :skel))"
-	$< "$@/cli.core" "(ql:quickload :std/cli)"
+	$< "$@/prelude.core" "(mapc #'ql:quickload \
+	(list :nlp :rdb :organ :packy :skel :obj :net :parse :pod :dat :log :packy :rt :sxp :syn :xdb))"
+	$< "$@/rdb.core" "(ql:quickload :rdb)"
+	$< "$@/organ.core" "(ql:quickload :organ)"
+	$< "$@/skel.core" "(ql:quickload :skel)"
+	$< "$@/pod.core" "(ql:quickload :pod)"
+	$< "$@/cli.core" "(ql:quickload :cli)"
 $(BIN_DIR):$(BIN_SRC);mkdir -p $@;cp -r $^ $@
-$(LIB_DIR):$(LIB_SRC);mkdir -p $@/lisp/b;cp -r $^ $@/lisp/b;cp $(ASD) $@/lisp
+$(LIB_DIR):$(LIB_SRC) $(ASD);mkdir -p $@/lisp;cp -rf $^ $@/lisp/;

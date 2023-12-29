@@ -8,9 +8,9 @@
 ;; (load "stalwart")
 
 ;;; Code:
-(defpackage :b/stalwart
-  (:use :cl :sxql :dbi)
+(defpackage :lob/stalwart
   (:nicknames :stalwart)
+  (:use :cl :sxql :dbi)
   (:export 
    :init-db :delete-db :init-tables :*db-path*
    :create-accounts-table :create-group-members-table :create-emails-table

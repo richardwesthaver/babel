@@ -8,3 +8,236 @@ This is one of my 'always in design-phase' projects, with many
 different implementations scattered throughout repos found on
 [[https://lab.rwest.io][lab.rwest.io]] and other private repos (=lob.org=, =babel.org=,
 =babel.el=).
+
+* makefile
+dumps scripts and SBCL core images to =.local/bin= and =.local/lib=
+respectively.
+
+If you somehow manage to replicate my environment (bless your soul)
+your build output would look something look this:
+
+#+begin_src sh :results output replace :exports both
+make
+#+end_src
+
+#+RESULTS:
+#+begin_example
+chmod +x py/build-efi.py
+chmod +x py/fm_radio_rx.py
+chmod +x py/hackrf.py
+chmod +x py/org.py
+chmod +x py/sm_scrape.py
+chmod +x sh/add-demon.sh
+chmod +x sh/arch-chroot.sh
+chmod +x sh/archiso-first-run.sh
+chmod +x sh/archiso-test.sh
+chmod +x sh/arch-upgrade.sh
+chmod +x sh/check-cert.sh
+chmod +x sh/check-doas.sh
+chmod +x sh/check_term_colors.sh
+chmod +x sh/ec.sh
+chmod +x sh/fuzz.sh
+chmod +x sh/genfstab.sh
+chmod +x sh/gen-libera-cert.sh
+chmod +x sh/gen_rust_docs.sh
+chmod +x sh/heptapod-runner-install.sh
+chmod +x sh/hg-bundle-contrib.sh
+chmod +x sh/hg-bundle.sh
+chmod +x sh/hg-bundle-src.sh
+chmod +x sh/hg-export-bundle.sh
+chmod +x sh/hg-fast-export.sh
+chmod +x sh/hg-pull.sh
+chmod +x sh/hg-unbundle.sh
+chmod +x sh/install-emacs.sh
+chmod +x sh/install.sh
+chmod +x sh/make-blake3-x86.sh
+chmod +x sh/mkinit-linux.sh
+chmod +x sh/mkinit.sh
+chmod +x sh/new-mail.sh
+chmod +x sh/nfs-re-export.sh
+chmod +x sh/nyxt-kill.sh
+chmod +x sh/pacman-pkgsearch.sh
+chmod +x sh/pipes.sh
+chmod +x sh/podman-machine-default-update.sh
+chmod +x sh/port-scan.sh
+chmod +x sh/pw-dewire.sh
+chmod +x sh/pw-loadwires.py
+chmod +x sh/pw-savewires.sh
+chmod +x sh/qemu-init-win10.sh
+chmod +x sh/qmk-flash-moonlander.sh
+chmod +x sh/record-gif.sh
+chmod +x sh/rsync-zip.sh
+chmod +x sh/rust_docs_bootstrap_frontend.sh
+chmod +x sh/sbcl-eval.sh
+chmod +x sh/sbcl-make-dev.sh
+chmod +x sh/sbcl-save-core.sh
+chmod +x sh/sc.sh
+chmod +x sh/set_bg.sh
+chmod +x sh/set-version.sh
+chmod +x sh/ssh-agent-load.sh
+chmod +x sh/systemd-user-env.sh
+chmod +x sh/wg-gen-keys.sh
+chmod +x sh/xsc.sh
+chmod +x sh/zor-btrfs-balance.sh
+chmod +x sh/zor-docker-init.sh
+chmod +x sh/zor-mount-drives.sh
+chmod +x sh/zor-podman-init.sh
+chmod +x sh/zor-screenlayout-default.sh
+chmod +x sh/zor-upgrade.sh
+chmod +x sh/zor-wm-init.sh
+chmod +x hs/monads.hs
+chmod +x ps/nbd-firewall-rule.ps1
+chmod +x ps/win-dlbin64-certutil.ps1
+chmod +x ps/win-dlx-bitsadmin.ps1
+mkdir -p /home/ellis/.local/bin;cp -r py/build-efi.py py/fm_radio_rx.py py/hackrf.py py/org.py py/sm_scrape.py sh/add-demon.sh sh/arch-chroot.sh sh/archiso-first-run.sh sh/archiso-test.sh sh/arch-upgrade.sh sh/check-cert.sh sh/check-doas.sh sh/check_term_colors.sh sh/ec.sh sh/fuzz.sh sh/genfstab.sh sh/gen-libera-cert.sh sh/gen_rust_docs.sh sh/heptapod-runner-install.sh sh/hg-bundle-contrib.sh sh/hg-bundle.sh sh/hg-bundle-src.sh sh/hg-export-bundle.sh sh/hg-fast-export.sh sh/hg-pull.sh sh/hg-unbundle.sh sh/install-emacs.sh sh/install.sh sh/make-blake3-x86.sh sh/mkinit-linux.sh sh/mkinit.sh sh/new-mail.sh sh/nfs-re-export.sh sh/nyxt-kill.sh sh/pacman-pkgsearch.sh sh/pipes.sh sh/podman-machine-default-update.sh sh/port-scan.sh sh/pw-dewire.sh sh/pw-loadwires.py sh/pw-savewires.sh sh/qemu-init-win10.sh sh/qmk-flash-moonlander.sh sh/record-gif.sh sh/rsync-zip.sh sh/rust_docs_bootstrap_frontend.sh sh/sbcl-eval.sh sh/sbcl-make-dev.sh sh/sbcl-save-core.sh sh/sc.sh sh/set_bg.sh sh/set-version.sh sh/ssh-agent-load.sh sh/systemd-user-env.sh sh/wg-gen-keys.sh sh/xsc.sh sh/zor-btrfs-balance.sh sh/zor-docker-init.sh sh/zor-mount-drives.sh sh/zor-podman-init.sh sh/zor-screenlayout-default.sh sh/zor-upgrade.sh sh/zor-wm-init.sh hs/monads.hs ps/nbd-firewall-rule.ps1 ps/win-dlbin64-certutil.ps1 ps/win-dlx-bitsadmin.ps1 /home/ellis/.local/bin
+mkdir -p /home/ellis/.local/lib/lisp;cp -rf lob lob/lob.asd /home/ellis/.local/lib/lisp/;
+mkdir -pv /home/ellis/.local/lib/lisp/fasl
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/std.core"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/prelude.core" "(mapc #'ql:quickload \
+(list :nlp :rdb :organ :packy :skel :obj :net :parse :pod :dat :log :packy :rt :sxp :syn :xdb))"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+To load "nlp":
+  Load 1 ASDF system:
+    nlp
+; Loading "nlp"
+
+To load "rdb":
+  Load 1 ASDF system:
+    rdb
+; Loading "rdb"
+
+To load "organ":
+  Load 1 ASDF system:
+    organ
+; Loading "organ"
+
+To load "packy":
+  Load 1 ASDF system:
+    packy
+; Loading "packy"
+
+To load "skel":
+  Load 1 ASDF system:
+    skel
+; Loading "skel"
+
+To load "obj":
+  Load 1 ASDF system:
+    obj
+; Loading "obj"
+
+To load "net":
+  Load 1 ASDF system:
+    net
+; Loading "net"
+..................
+To load "parse":
+  Load 1 ASDF system:
+    parse
+; Loading "parse"
+
+To load "pod":
+  Load 1 ASDF system:
+    pod
+; Loading "pod"
+
+To load "dat":
+  Load 1 ASDF system:
+    dat
+; Loading "dat"
+
+To load "log":
+  Load 1 ASDF system:
+    log
+; Loading "log"
+
+To load "packy":
+  Load 1 ASDF system:
+    packy
+; Loading "packy"
+
+To load "rt":
+  Load 1 ASDF system:
+    rt
+; Loading "rt"
+
+To load "sxp":
+  Load 1 ASDF system:
+    sxp
+; Loading "sxp"
+
+To load "syn":
+  Load 1 ASDF system:
+    syn
+; Loading "syn"
+
+To load "xdb":
+  Load 1 ASDF system:
+    xdb
+; Loading "xdb"
+
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/rdb.core" "(ql:quickload :rdb)"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+To load "rdb":
+  Load 1 ASDF system:
+    rdb
+; Loading "rdb"
+
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/organ.core" "(ql:quickload :organ)"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+To load "organ":
+  Load 1 ASDF system:
+    organ
+; Loading "organ"
+
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/skel.core" "(ql:quickload :skel)"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+To load "skel":
+  Load 1 ASDF system:
+    skel
+; Loading "skel"
+.
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/pod.core" "(ql:quickload :pod)"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+To load "pod":
+  Load 1 ASDF system:
+    pod
+; Loading "pod"
+...................
+sh/sbcl-save-core.sh "/home/ellis/.local/lib/lisp/fasl/cli.core" "(ql:quickload :cli)"
+To load "std":
+  Load 1 ASDF system:
+    std
+; Loading "std"
+..
+To load "cli":
+  Load 1 ASDF system:
+    cli
+; Loading "cli"
+
+#+end_example

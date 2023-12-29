@@ -1,2 +1,2 @@
 #!/bin/sh
-btrfs balance 
+sudo btrfs balance 
